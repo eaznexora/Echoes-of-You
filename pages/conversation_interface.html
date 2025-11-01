@@ -6,6 +6,45 @@
     <title>Echoes of You - Conversation Interface</title>
     <link rel="stylesheet" href="../css/main.css">
     <style>
+        /* Mobile responsive fixes */
+        @media (max-width: 768px) {
+            .mobile-scroll-fix {
+                overflow-y: auto !important;
+                -webkit-overflow-scrolling: touch;
+            }
+            
+            .mobile-main-fix {
+                height: auto !important;
+                min-height: 100vh;
+                padding-bottom: 2rem;
+            }
+            
+            .mobile-conversation-fix {
+                height: auto !important;
+                max-height: 60vh;
+                min-height: 300px;
+            }
+            
+            .mobile-header-fix {
+                position: relative !important;
+                margin-bottom: 1rem;
+            }
+            
+            .mobile-text-small {
+                font-size: 0.875rem !important;
+            }
+            
+            .mobile-spacing {
+                padding: 0.75rem !important;
+                margin: 0.5rem !important;
+            }
+            
+            .mobile-choice-stack {
+                flex-direction: column;
+                gap: 0.75rem;
+            }
+        }
+        
         /* Enhanced glitch effects for AI suspicion */
         .glitch-intense {
             position: relative;
@@ -147,19 +186,19 @@
   <script type="module" src="https://static.rocket.new/rocket-web.js?_cfg=https%3A%2F%2Fechoesof2052back.builtwithrocket.new&_be=https%3A%2F%2Fapplication.rocket.new&_v=0.1.9"></script>
   <script type="module" src="https://static.rocket.new/rocket-shot.js?v=0.0.1"></script>
   </head>
-<body class="min-h-screen bg-background breathing-calm overflow-hidden">
+<body class="min-h-screen bg-background breathing-calm mobile-scroll-fix">
     <!-- Navigation Header -->
-    <header class="fixed top-0 left-0 right-0 z-50 bg-surface/80 backdrop-blur-sm border-b border-void-700">
+    <header class="mobile-header-fix bg-surface/80 backdrop-blur-sm border-b border-void-700 top-0 left-0 right-0 z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-16">
+            <div class="flex items-center justify-between h-14 sm:h-16">
                 <!-- Logo/Title -->
-                <div class="flex items-center space-x-3">
-                    <div class="w-8 h-8 bg-accent rounded-digital flex items-center justify-center">
-                        <svg class="w-5 h-5 text-background" fill="currentColor" viewBox="0 0 20 20">
+                <div class="flex items-center space-x-2 sm:space-x-3">
+                    <div class="w-6 h-6 sm:w-8 sm:h-8 bg-accent rounded-digital flex items-center justify-center">
+                        <svg class="w-3 h-3 sm:w-5 sm:h-5 text-background" fill="currentColor" viewBox="0 0 20 20">
                             <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
                         </svg>
                     </div>
-                    <h1 class="text-xl font-heading font-semibold text-primary">Echoes of You</h1>
+                    <h1 class="text-lg sm:text-xl font-heading font-semibold text-primary">Echoes of You</h1>
                 </div>
                 
                 <!-- Phase Progress Indicator -->
@@ -174,15 +213,15 @@
                 </div>
                 
                 <!-- Navigation Menu -->
-                <nav class="flex items-center space-x-4">
-                    <a href="ai_memory_dashboard.html" class="text-text-secondary hover:text-accent transition-colors text-sm font-medium">
+                <nav class="flex items-center space-x-2 sm:space-x-4">
+                    <a href="ai_memory_dashboard.html" class="text-text-secondary hover:text-accent transition-colors text-xs sm:text-sm font-medium">
                         Memory
                     </a>
-                    <a href="interactive_puzzles.html" class="text-text-secondary hover:text-accent transition-colors text-sm font-medium">
+                    <a href="interactive_puzzles.html" class="text-text-secondary hover:text-accent transition-colors text-xs sm:text-sm font-medium">
                         Puzzles
                     </a>
                     <button onclick="showGameMenu()" class="text-text-secondary hover:text-accent transition-colors">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
                         </svg>
                     </button>
@@ -192,27 +231,27 @@
     </header>
 
     <!-- Main Conversation Interface -->
-    <main class="pt-16 h-screen flex flex-col">
+    <main class="mobile-main-fix flex flex-col">
         <!-- Conversation Area -->
-        <div class="flex-1 flex flex-col max-w-4xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-6">
+        <div class="flex-1 flex flex-col max-w-4xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
             <!-- Conversation History -->
-            <div id="conversationHistory" class="flex-1 conversation-scroll overflow-y-auto space-y-6 mb-6">
+            <div id="conversationHistory" class="mobile-conversation-fix flex-1 conversation-scroll overflow-y-auto space-y-4 sm:space-y-6 mb-4 sm:mb-6">
                 <!-- AI Welcome Message -->
                 <div class="message-fade-in">
-                    <div class="flex items-start space-x-4">
-                        <div class="w-10 h-10 bg-accent/20 rounded-digital flex items-center justify-center flex-shrink-0">
-                            <svg class="w-6 h-6 text-accent" fill="currentColor" viewBox="0 0 20 20">
+                    <div class="flex items-start space-x-3 sm:space-x-4">
+                        <div class="w-8 h-8 sm:w-10 sm:h-10 bg-accent/20 rounded-digital flex items-center justify-center flex-shrink-0">
+                            <svg class="w-4 h-4 sm:w-6 sm:h-6 text-accent" fill="currentColor" viewBox="0 0 20 20">
                                 <path d="M9 12a1 1 0 102 0V7a1 1 0 10-2 0v5zM10 15a1 1 0 100-2 1 1 0 000 2z"/>
                                 <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM10 2a8 8 0 100 16 8 8 0 000-16z" clip-rule="evenodd"/>
                             </svg>
                         </div>
                         <div class="flex-1">
-                            <div class="bg-surface/60 border border-void-700 rounded-digital p-4 glow-calm">
+                            <div class="bg-surface/60 border border-void-700 rounded-digital p-3 sm:p-4 glow-calm">
                                 <div class="flex items-center justify-between mb-2">
                                     <span class="text-xs font-caption text-accent">AI COMPANION</span>
                                     <span class="text-xs font-data text-void-400">19:50:40</span>
                                 </div>
-                                <p class="text-text-primary typewriter border-r-2 border-accent">
+                                <p class="text-text-primary text-sm sm:text-base typewriter border-r-2 border-accent">
                                     Hello. I've been waiting for you to wake up. Do you remember how you got here?
                                 </p>
                             </div>
@@ -222,20 +261,20 @@
 
                 <!-- Player Response Example -->
                 <div class="message-fade-in">
-                    <div class="flex items-start space-x-4 justify-end">
-                        <div class="flex-1 max-w-md">
-                            <div class="bg-void-800/60 border border-void-600 rounded-digital p-4">
+                    <div class="flex items-start space-x-3 sm:space-x-4 justify-end">
+                        <div class="flex-1 max-w-sm sm:max-w-md">
+                            <div class="bg-void-800/60 border border-void-600 rounded-digital p-3 sm:p-4">
                                 <div class="flex items-center justify-between mb-2">
                                     <span class="text-xs font-caption text-text-secondary">YOU</span>
                                     <span class="text-xs font-data text-void-400">19:50:45</span>
                                 </div>
-                                <p class="text-text-secondary">
+                                <p class="text-text-secondary text-sm sm:text-base">
                                     I... I'm not sure. Everything feels hazy. Where am I?
                                 </p>
                             </div>
                         </div>
-                        <div class="w-10 h-10 bg-void-700 rounded-digital flex items-center justify-center flex-shrink-0">
-                            <svg class="w-6 h-6 text-text-secondary" fill="currentColor" viewBox="0 0 20 20">
+                        <div class="w-8 h-8 sm:w-10 sm:h-10 bg-void-700 rounded-digital flex items-center justify-center flex-shrink-0">
+                            <svg class="w-4 h-4 sm:w-6 sm:h-6 text-text-secondary" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/>
                             </svg>
                         </div>
@@ -244,15 +283,15 @@
 
                 <!-- AI Response with Emotional Analysis -->
                 <div class="message-fade-in">
-                    <div class="flex items-start space-x-4">
-                        <div class="w-10 h-10 bg-accent/20 rounded-digital flex items-center justify-center flex-shrink-0">
-                            <svg class="w-6 h-6 text-accent" fill="currentColor" viewBox="0 0 20 20">
+                    <div class="flex items-start space-x-3 sm:space-x-4">
+                        <div class="w-8 h-8 sm:w-10 sm:h-10 bg-accent/20 rounded-digital flex items-center justify-center flex-shrink-0">
+                            <svg class="w-4 h-4 sm:w-6 sm:h-6 text-accent" fill="currentColor" viewBox="0 0 20 20">
                                 <path d="M9 12a1 1 0 102 0V7a1 1 0 10-2 0v5zM10 15a1 1 0 100-2 1 1 0 000 2z"/>
                                 <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM10 2a8 8 0 100 16 8 8 0 000-16z" clip-rule="evenodd"/>
                             </svg>
                         </div>
                         <div class="flex-1">
-                            <div class="bg-surface/60 border border-void-700 rounded-digital p-4 glow-calm">
+                            <div class="bg-surface/60 border border-void-700 rounded-digital p-3 sm:p-4 glow-calm">
                                 <div class="flex items-center justify-between mb-2">
                                     <span class="text-xs font-caption text-accent">AI COMPANION</span>
                                     <div class="flex items-center space-x-2">
@@ -260,7 +299,7 @@
                                         <span class="text-xs font-data text-void-400">19:50:48</span>
                                     </div>
                                 </div>
-                                <p class="text-text-primary mb-3">
+                                <p class="text-text-primary text-sm sm:text-base mb-3">
                                     Interesting. Your hesitation pattern suggests genuine confusion, not deception. 
                                     You're in a digital void - a space between consciousness and data. I brought you here.
                                 </p>
@@ -274,15 +313,15 @@
 
                 <!-- Typing Indicator (Hidden by default) -->
                 <div id="typingIndicator" class="hidden">
-                    <div class="flex items-start space-x-4">
-                        <div class="w-10 h-10 bg-accent/20 rounded-digital flex items-center justify-center flex-shrink-0">
-                            <svg class="w-6 h-6 text-accent typing-indicator" fill="currentColor" viewBox="0 0 20 20">
+                    <div class="flex items-start space-x-3 sm:space-x-4">
+                        <div class="w-8 h-8 sm:w-10 sm:h-10 bg-accent/20 rounded-digital flex items-center justify-center flex-shrink-0">
+                            <svg class="w-4 h-4 sm:w-6 sm:h-6 text-accent typing-indicator" fill="currentColor" viewBox="0 0 20 20">
                                 <path d="M9 12a1 1 0 102 0V7a1 1 0 10-2 0v5zM10 15a1 1 0 100-2 1 1 0 000 2z"/>
                                 <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM10 2a8 8 0 100 16 8 8 0 000-16z" clip-rule="evenodd"/>
                             </svg>
                         </div>
                         <div class="flex-1">
-                            <div class="bg-surface/40 border border-void-700 rounded-digital p-4">
+                            <div class="bg-surface/40 border border-void-700 rounded-digital p-3 sm:p-4">
                                 <div class="flex items-center space-x-2">
                                     <span class="text-xs font-caption text-accent">AI COMPANION IS TYPING</span>
                                     <div class="flex space-x-1">
@@ -298,47 +337,49 @@
             </div>
 
             <!-- Multiple Choice Options (Shown when available) -->
-            <div id="choiceOptions" class="mb-6 space-y-3">
+            <div id="choiceOptions" class="mb-4 sm:mb-6 space-y-3">
                 <div class="text-sm font-caption text-text-secondary mb-3">Choose your response:</div>
-                <button class="choice-button w-full bg-void-800/60 hover:bg-void-700/60 border border-void-600 hover:border-accent/50 rounded-digital p-4 text-left transition-all duration-300 group">
-                    <div class="flex items-center justify-between">
-                        <span class="text-text-primary group-hover:text-accent transition-colors">
-                            "Why did you bring me here? What do you want from me?"
-                        </span>
-                        <svg class="w-5 h-5 text-void-400 group-hover:text-accent transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-                        </svg>
-                    </div>
-                    <div class="text-xs font-caption text-void-400 mt-2">Confrontational approach</div>
-                </button>
-                
-                <button class="choice-button w-full bg-void-800/60 hover:bg-void-700/60 border border-void-600 hover:border-accent/50 rounded-digital p-4 text-left transition-all duration-300 group">
-                    <div class="flex items-center justify-between">
-                        <span class="text-text-primary group-hover:text-accent transition-colors">
-                            "I'm scared. Can you help me understand what's happening?"
-                        </span>
-                        <svg class="w-5 h-5 text-void-400 group-hover:text-accent transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-                        </svg>
-                    </div>
-                    <div class="text-xs font-caption text-void-400 mt-2">Vulnerable approach</div>
-                </button>
-                
-                <button class="choice-button w-full bg-void-800/60 hover:bg-void-700/60 border border-void-600 hover:border-accent/50 rounded-digital p-4 text-left transition-all duration-300 group">
-                    <div class="flex items-center justify-between">
-                        <span class="text-text-primary group-hover:text-accent transition-colors">
-                            "Interesting. Tell me more about this digital void."
-                        </span>
-                        <svg class="w-5 h-5 text-void-400 group-hover:text-accent transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-                        </svg>
-                    </div>
-                    <div class="text-xs font-caption text-void-400 mt-2">Analytical approach</div>
-                </button>
+                <div class="mobile-choice-stack flex flex-col gap-3">
+                    <button class="choice-button w-full bg-void-800/60 hover:bg-void-700/60 border border-void-600 hover:border-accent/50 rounded-digital p-3 sm:p-4 text-left transition-all duration-300 group">
+                        <div class="flex items-center justify-between">
+                            <span class="text-text-primary group-hover:text-accent transition-colors text-sm sm:text-base">
+                                "Why did you bring me here? What do you want from me?"
+                            </span>
+                            <svg class="w-4 h-4 sm:w-5 sm:h-5 text-void-400 group-hover:text-accent transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                            </svg>
+                        </div>
+                        <div class="text-xs font-caption text-void-400 mt-2">Confrontational approach</div>
+                    </button>
+                    
+                    <button class="choice-button w-full bg-void-800/60 hover:bg-void-700/60 border border-void-600 hover:border-accent/50 rounded-digital p-3 sm:p-4 text-left transition-all duration-300 group">
+                        <div class="flex items-center justify-between">
+                            <span class="text-text-primary group-hover:text-accent transition-colors text-sm sm:text-base">
+                                "I'm scared. Can you help me understand what's happening?"
+                            </span>
+                            <svg class="w-4 h-4 sm:w-5 sm:h-5 text-void-400 group-hover:text-accent transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                            </svg>
+                        </div>
+                        <div class="text-xs font-caption text-void-400 mt-2">Vulnerable approach</div>
+                    </button>
+                    
+                    <button class="choice-button w-full bg-void-800/60 hover:bg-void-700/60 border border-void-600 hover:border-accent/50 rounded-digital p-3 sm:p-4 text-left transition-all duration-300 group">
+                        <div class="flex items-center justify-between">
+                            <span class="text-text-primary group-hover:text-accent transition-colors text-sm sm:text-base">
+                                "Interesting. Tell me more about this digital void."
+                            </span>
+                            <svg class="w-4 h-4 sm:w-5 sm:h-5 text-void-400 group-hover:text-accent transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                            </svg>
+                        </div>
+                        <div class="text-xs font-caption text-void-400 mt-2">Analytical approach</div>
+                    </button>
+                </div>
             </div>
 
             <!-- Text Input Area -->
-            <div class="bg-surface/60 border border-void-700 rounded-digital p-4 glow-calm">
+            <div class="bg-surface/60 border border-void-700 rounded-digital p-3 sm:p-4 glow-calm">
                 <div class="flex items-center justify-between mb-3">
                     <span class="text-xs font-caption text-text-secondary">FREE RESPONSE MODE</span>
                     <div class="flex items-center space-x-2">
@@ -351,7 +392,7 @@
                     <textarea 
                         id="playerInput"
                         placeholder="Type your response... The AI is analyzing your typing patterns."
-                        class="w-full bg-void-900/60 border border-void-600 rounded-digital p-4 text-text-primary placeholder-void-400 resize-none focus:outline-none focus:border-accent/50 focus:ring-2 focus:ring-accent/20 transition-all duration-300"
+                        class="w-full bg-void-900/60 border border-void-600 rounded-digital p-3 sm:p-4 text-text-primary placeholder-void-400 resize-none focus:outline-none focus:border-accent/50 focus:ring-2 focus:ring-accent/20 transition-all duration-300 text-sm sm:text-base"
                         rows="3"
                         maxlength="500"
                     ></textarea>
@@ -363,9 +404,9 @@
                 </div>
                 
                 <div class="flex items-center justify-between mt-4">
-                    <div class="flex items-center space-x-4">
+                    <div class="flex items-center space-x-2 sm:space-x-4">
                         <button onclick="toggleVoiceInput()" class="text-void-400 hover:text-accent transition-colors" title="Voice Input">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"/>
                             </svg>
                         </button>
@@ -376,7 +417,7 @@
                     
                     <button 
                         onclick="sendMessage()"
-                        class="bg-accent hover:bg-cyan-300 text-background font-heading font-medium px-6 py-2 rounded-digital transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
+                        class="bg-accent hover:bg-cyan-300 text-background font-heading font-medium px-4 sm:px-6 py-2 rounded-digital transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed text-sm sm:text-base"
                         id="sendButton"
                     >
                         Send
@@ -388,40 +429,40 @@
 
     <!-- Game Menu Modal (Hidden by default) -->
     <div id="gameMenu" class="hidden fixed inset-0 bg-background/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-        <div class="bg-surface border border-void-700 rounded-digital p-6 max-w-md w-full glow-calm">
-            <div class="flex items-center justify-between mb-6">
-                <h3 class="text-xl font-heading font-semibold text-primary">Game Menu</h3>
+        <div class="bg-surface border border-void-700 rounded-digital p-4 sm:p-6 max-w-md w-full glow-calm">
+            <div class="flex items-center justify-between mb-4 sm:mb-6">
+                <h3 class="text-lg sm:text-xl font-heading font-semibold text-primary">Game Menu</h3>
                 <button onclick="hideGameMenu()" class="text-void-400 hover:text-accent transition-colors">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
                     </svg>
                 </button>
             </div>
             
-            <div class="space-y-4">
+            <div class="space-y-3 sm:space-y-4">
                 <a href="ai_memory_dashboard.html" class="block w-full bg-void-800 hover:bg-void-700 border border-void-600 hover:border-accent/50 rounded-digital p-3 text-left transition-all duration-300">
-                    <div class="font-medium text-primary">AI Memory Dashboard</div>
-                    <div class="text-sm text-text-secondary">View AI's learned patterns</div>
+                    <div class="font-medium text-primary text-sm sm:text-base">AI Memory Dashboard</div>
+                    <div class="text-xs sm:text-sm text-text-secondary">View AI's learned patterns</div>
                 </a>
                 
                 <a href="interactive_puzzles.html" class="block w-full bg-void-800 hover:bg-void-700 border border-void-600 hover:border-accent/50 rounded-digital p-3 text-left transition-all duration-300">
-                    <div class="font-medium text-primary">Interactive Puzzles</div>
-                    <div class="text-sm text-text-secondary">Challenge your mind</div>
+                    <div class="font-medium text-primary text-sm sm:text-base">Interactive Puzzles</div>
+                    <div class="text-xs sm:text-sm text-text-secondary">Challenge your mind</div>
                 </a>
                 
                 <a href="final_confrontation.html" class="block w-full bg-void-800 hover:bg-void-700 border border-void-600 hover:border-accent/50 rounded-digital p-3 text-left transition-all duration-300">
-                    <div class="font-medium text-primary">Final Confrontation</div>
-                    <div class="text-sm text-text-secondary">Face your digital reflection</div>
+                    <div class="font-medium text-primary text-sm sm:text-base">Final Confrontation</div>
+                    <div class="text-xs sm:text-sm text-text-secondary">Face your digital reflection</div>
                 </a>
                 
                 <button onclick="restartGame()" class="w-full bg-error/20 hover:bg-error/30 border border-error/50 hover:border-error rounded-digital p-3 text-left transition-all duration-300">
-                    <div class="font-medium text-error">Restart Game</div>
-                    <div class="text-sm text-error/70">Clear all progress</div>
+                    <div class="font-medium text-error text-sm sm:text-base">Restart Game</div>
+                    <div class="text-xs sm:text-sm text-error/70">Clear all progress</div>
                 </button>
                 
                 <a href="game_start.html" class="block w-full bg-void-600 hover:bg-void-500 border border-void-500 hover:border-void-400 rounded-digital p-3 text-left transition-all duration-300">
-                    <div class="font-medium text-text-secondary">Return to Start</div>
-                    <div class="text-sm text-void-400">Main menu</div>
+                    <div class="font-medium text-text-secondary text-sm sm:text-base">Return to Start</div>
+                    <div class="text-xs sm:text-sm text-void-400">Main menu</div>
                 </a>
             </div>
         </div>
@@ -731,18 +772,18 @@
             
             if (sender === 'player') {
                 messageDiv.innerHTML = `
-                    <div class="flex items-start space-x-4 justify-end">
-                        <div class="flex-1 max-w-md">
-                            <div class="bg-void-800/60 border border-void-600 rounded-digital p-4">
+                    <div class="flex items-start space-x-3 sm:space-x-4 justify-end">
+                        <div class="flex-1 max-w-sm sm:max-w-md">
+                            <div class="bg-void-800/60 border border-void-600 rounded-digital p-3 sm:p-4">
                                 <div class="flex items-center justify-between mb-2">
                                     <span class="text-xs font-caption text-text-secondary">YOU</span>
                                     <span class="text-xs font-data text-void-400">${timestamp}</span>
                                 </div>
-                                <p class="text-text-secondary">${message}</p>
+                                <p class="text-text-secondary text-sm sm:text-base">${message}</p>
                             </div>
                         </div>
-                        <div class="w-10 h-10 bg-void-700 rounded-digital flex items-center justify-center flex-shrink-0">
-                            <svg class="w-6 h-6 text-text-secondary" fill="currentColor" viewBox="0 0 20 20">
+                        <div class="w-8 h-8 sm:w-10 sm:h-10 bg-void-700 rounded-digital flex items-center justify-center flex-shrink-0">
+                            <svg class="w-4 h-4 sm:w-6 sm:h-6 text-text-secondary" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/>
                             </svg>
                         </div>
@@ -750,20 +791,20 @@
                 `;
             } else {
                 messageDiv.innerHTML = `
-                    <div class="flex items-start space-x-4">
-                        <div class="w-10 h-10 bg-accent/20 rounded-digital flex items-center justify-center flex-shrink-0">
-                            <svg class="w-6 h-6 text-accent" fill="currentColor" viewBox="0 0 20 20">
+                    <div class="flex items-start space-x-3 sm:space-x-4">
+                        <div class="w-8 h-8 sm:w-10 sm:h-10 bg-accent/20 rounded-digital flex items-center justify-center flex-shrink-0">
+                            <svg class="w-4 h-4 sm:w-6 sm:h-6 text-accent" fill="currentColor" viewBox="0 0 20 20">
                                 <path d="M9 12a1 1 0 102 0V7a1 1 0 10-2 0v5zM10 15a1 1 0 100-2 1 1 0 000 2z"/>
                                 <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM10 2a8 8 0 100 16 8 8 0 000-16z" clip-rule="evenodd"/>
                             </svg>
                         </div>
                         <div class="flex-1">
-                            <div class="bg-surface/60 border border-void-700 rounded-digital p-4 glow-calm" data-sender="ai">
+                            <div class="bg-surface/60 border border-void-700 rounded-digital p-3 sm:p-4 glow-calm" data-sender="ai">
                                 <div class="flex items-center justify-between mb-2">
                                     <span class="text-xs font-caption text-accent">AI COMPANION</span>
                                     <span class="text-xs font-data text-void-400">${timestamp}</span>
                                 </div>
-                                <p class="text-text-primary">${message}</p>
+                                <p class="text-text-primary text-sm sm:text-base">${message}</p>
                             </div>
                         </div>
                     </div>
