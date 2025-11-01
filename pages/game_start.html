@@ -6,6 +6,30 @@
     <title>Echoes of You - Enter the Void</title>
     <link rel="stylesheet" href="../css/main.css">
     <style>
+        /* Mobile responsive fixes */
+        @media (max-width: 768px) {
+            .mobile-scroll-fix {
+                overflow-y: auto !important;
+                -webkit-overflow-scrolling: touch;
+            }
+            
+            .mobile-text-adjust h1 {
+                font-size: 2.5rem !important;
+                line-height: 1.2;
+            }
+            
+            .mobile-spacing {
+                padding: 1rem !important;
+                margin-bottom: 2rem !important;
+            }
+            
+            .mobile-container {
+                min-height: auto !important;
+                padding-top: 2rem;
+                padding-bottom: 2rem;
+            }
+        }
+        
         /* Particle animation for void atmosphere */
         .particle {
             position: absolute;
@@ -105,7 +129,7 @@
   <script type="module" src="https://static.rocket.new/rocket-web.js?_cfg=https%3A%2F%2Fechoesof2052back.builtwithrocket.new&_be=https%3A%2F%2Fapplication.rocket.new&_v=0.1.9"></script>
   <script type="module" src="https://static.rocket.new/rocket-shot.js?v=0.0.1"></script>
   </head>
-<body class="min-h-screen bg-background breathing-calm overflow-hidden">
+<body class="min-h-screen bg-background breathing-calm mobile-scroll-fix">
     <!-- Particle Background -->
     <div class="fixed inset-0 pointer-events-none">
         <div class="particle w-2 h-2" style="top: 10%; left: 20%;"></div>
@@ -119,27 +143,27 @@
     </div>
 
     <!-- Main Content Container -->
-    <div class="relative min-h-screen flex flex-col items-center justify-center px-6 py-12">
+    <div class="relative mobile-container flex flex-col items-center justify-center px-4 sm:px-6 py-6 sm:py-12">
         <!-- Header Section -->
-        <header class="text-center mb-12 fade-in">
-            <h1 class="glitch-text text-6xl md:text-8xl font-heading font-bold mb-4" data-text="ECHOES OF YOU">
+        <header class="text-center mb-8 sm:mb-12 fade-in mobile-text-adjust">
+            <h1 class="glitch-text text-4xl sm:text-6xl md:text-8xl font-heading font-bold mb-4" data-text="ECHOES OF YOU">
                 ECHOES OF YOU
             </h1>
             <div class="w-32 h-0.5 bg-gradient-to-r from-transparent via-accent to-transparent mx-auto mb-6"></div>
-            <p class="text-secondary text-lg md:text-xl font-caption tracking-wider">
+            <p class="text-secondary text-base sm:text-lg md:text-xl font-caption tracking-wider">
                 A Psychological Mystery Narrative
             </p>
         </header>
 
         <!-- Main Content Area -->
-        <main class="max-w-4xl w-full text-center space-y-8">
+        <main class="max-w-4xl w-full text-center space-y-6 sm:space-y-8">
             <!-- Introduction Text -->
             <section class="fade-in-delay">
-                <div class="bg-surface/30 backdrop-blur-sm border border-void-700 rounded-digital p-8 md:p-12 glow-calm">
-                    <h2 class="text-2xl md:text-3xl font-heading font-semibold mb-6 text-primary">
+                <div class="bg-surface/30 backdrop-blur-sm border border-void-700 rounded-digital p-6 sm:p-8 md:p-12 glow-calm">
+                    <h2 class="text-xl sm:text-2xl md:text-3xl font-heading font-semibold mb-4 sm:mb-6 text-primary">
                         Enter the Void
                     </h2>
-                    <div class="space-y-4 text-text-secondary text-base md:text-lg leading-relaxed">
+                    <div class="space-y-4 text-text-secondary text-sm sm:text-base md:text-lg leading-relaxed">
                         <p class="typewriter border-r-2 border-accent">
                             You wake in a digital void, accompanied only by an AI that claims to know you better than you know yourself.
                         </p>
@@ -161,7 +185,7 @@
                 <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
                     <button 
                         onclick="startNewGame()" 
-                        class="pulse-glow bg-accent hover:bg-cyan-300 text-background font-heading font-semibold px-8 py-4 rounded-digital transition-all duration-300 transform hover:scale-105 text-lg min-w-48"
+                        class="pulse-glow bg-accent hover:bg-cyan-300 text-background font-heading font-semibold px-6 sm:px-8 py-3 sm:py-4 rounded-digital transition-all duration-300 transform hover:scale-105 text-base sm:text-lg w-full sm:w-auto min-w-48"
                     >
                         Begin Journey
                     </button>
@@ -170,19 +194,19 @@
                     <button 
                         id="continueBtn"
                         onclick="continueSession()" 
-                        class="hidden bg-surface hover:bg-void-800 text-primary border border-void-600 hover:border-accent font-heading font-medium px-8 py-4 rounded-digital transition-all duration-300 text-lg min-w-48"
+                        class="hidden bg-surface hover:bg-void-800 text-primary border border-void-600 hover:border-accent font-heading font-medium px-6 sm:px-8 py-3 sm:py-4 rounded-digital transition-all duration-300 text-base sm:text-lg w-full sm:w-auto min-w-48"
                     >
                         Continue Previous Session
                     </button>
                 </div>
 
                 <!-- Tutorial Hints -->
-                <div class="fade-in-delay-3 mt-8">
-                    <details class="bg-surface/20 border border-void-700 rounded-digital p-6 text-left max-w-2xl mx-auto">
-                        <summary class="text-accent font-heading font-medium cursor-pointer hover:text-cyan-300 transition-colors">
+                <div class="fade-in-delay-3 mt-6 sm:mt-8">
+                    <details class="bg-surface/20 border border-void-700 rounded-digital p-4 sm:p-6 text-left max-w-2xl mx-auto">
+                        <summary class="text-accent font-heading font-medium cursor-pointer hover:text-cyan-300 transition-colors text-sm sm:text-base">
                             How to Play
                         </summary>
-                        <div class="mt-4 space-y-3 text-text-secondary text-sm">
+                        <div class="mt-4 space-y-3 text-text-secondary text-xs sm:text-sm">
                             <p>• <strong class="text-primary">Conversation-Based:</strong> Interact through text input and multiple choice responses</p>
                             <p>• <strong class="text-primary">AI Learning:</strong> The AI analyzes your typing patterns, response times, and decision-making style</p>
                             <p>• <strong class="text-primary">Emotional Detection:</strong> Your hesitation and word choices influence the AI's behavior and environment</p>
@@ -195,12 +219,12 @@
 
             <!-- Settings Panel -->
             <section class="fade-in-delay-3">
-                <div class="bg-surface/20 border border-void-700 rounded-digital p-6 max-w-md mx-auto">
-                    <h3 class="text-primary font-heading font-medium mb-4">Experience Settings</h3>
+                <div class="bg-surface/20 border border-void-700 rounded-digital p-4 sm:p-6 max-w-md mx-auto">
+                    <h3 class="text-primary font-heading font-medium mb-4 text-sm sm:text-base">Experience Settings</h3>
                     <div class="space-y-4">
                         <!-- Audio Controls -->
                         <div class="flex items-center justify-between">
-                            <label class="text-text-secondary text-sm">Ambient Audio</label>
+                            <label class="text-text-secondary text-xs sm:text-sm">Ambient Audio</label>
                             <button 
                                 id="audioToggle"
                                 onclick="toggleAudio()"
@@ -212,7 +236,7 @@
                         
                         <!-- Voice Integration -->
                         <div class="flex items-center justify-between">
-                            <label class="text-text-secondary text-sm">Voice Recognition</label>
+                            <label class="text-text-secondary text-xs sm:text-sm">Voice Recognition</label>
                             <button 
                                 id="voiceToggle"
                                 onclick="toggleVoice()"
@@ -224,7 +248,7 @@
                         
                         <!-- Glitch Effects -->
                         <div class="flex items-center justify-between">
-                            <label class="text-text-secondary text-sm">Visual Effects</label>
+                            <label class="text-text-secondary text-xs sm:text-sm">Visual Effects</label>
                             <button 
                                 id="effectsToggle"
                                 onclick="toggleEffects()"
@@ -239,11 +263,11 @@
         </main>
 
         <!-- Footer -->
-        <footer class="fade-in-delay-3 mt-12 text-center">
+        <footer class="fade-in-delay-3 mt-8 sm:mt-12 text-center mobile-spacing">
             <p class="text-void-400 text-xs font-caption">
                 © 2025 Echoes of You. A psychological mystery experience.
             </p>
-            <div class="mt-2 flex justify-center space-x-4 text-xs">
+            <div class="mt-2 flex flex-wrap justify-center gap-2 sm:gap-4 text-xs">
                 <a href="ai_memory_dashboard.html" class="text-void-500 hover:text-accent transition-colors">Memory Dashboard</a>
                 <span class="text-void-600">•</span>
                 <a href="interactive_puzzles.html" class="text-void-500 hover:text-accent transition-colors">Puzzle Archive</a>
