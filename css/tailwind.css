@@ -1,0 +1,227 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@300;400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Primary Colors */
+  --color-primary: #E8E8E8; /* gray-200 */
+  --color-secondary: #A0A0A0; /* gray-400 */
+  --color-accent: #00D4FF; /* cyan-400 */
+  
+  /* Background Colors */
+  --color-background: #0A0A0A; /* gray-950 */
+  --color-surface: #1A1A1A; /* gray-900 */
+  
+  /* Text Colors */
+  --color-text-primary: #FFFFFF; /* white */
+  --color-text-secondary: #CCCCCC; /* gray-300 */
+  
+  /* State Colors */
+  --color-success: #00FF88; /* emerald-400 */
+  --color-warning: #FFD700; /* yellow-400 */
+  --color-error: #FF4444; /* red-500 */
+  
+  /* Emotional Pulse Colors */
+  --color-calm: #00D4FF; /* cyan-400 */
+  --color-anxiety: #FFD700; /* yellow-400 */
+  --color-rage: #FF4444; /* red-500 */
+  --color-sadness: #A855F7; /* purple-500 */
+  
+  /* Animation Variables */
+  --transition-fast: 150ms ease-in-out;
+  --transition-normal: 300ms ease-in-out;
+  --transition-glitch: 200ms ease-in-out;
+  --transition-breathing: 3000ms ease-in-out;
+}
+
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+  
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  body {
+    font-family: 'Source Sans 3', sans-serif;
+    background-color: var(--color-background);
+    color: var(--color-text-primary);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    line-height: 1.2;
+  }
+  
+  code, pre {
+    font-family: 'JetBrains Mono', monospace;
+  }
+  
+  .font-data {
+    font-family: 'Roboto Mono', monospace;
+  }
+}
+
+@layer components {
+  /* Micro-Glitch Transitions */
+  .glitch-hover:hover {
+    animation: micro-glitch var(--transition-glitch) ease-in-out;
+  }
+  
+  @keyframes micro-glitch {
+    0%, 100% { transform: translateX(0); filter: hue-rotate(0deg); }
+    25% { transform: translateX(-1px); filter: hue-rotate(90deg); }
+    75% { transform: translateX(1px); filter: hue-rotate(-90deg); }
+  }
+  
+  /* Emotional Color Breathing */
+  .breathing-calm {
+    animation: breathe-calm var(--transition-breathing) infinite alternate;
+  }
+  
+  .breathing-anxiety {
+    animation: breathe-anxiety var(--transition-breathing) infinite alternate;
+  }
+  
+  .breathing-rage {
+    animation: breathe-rage var(--transition-breathing) infinite alternate;
+  }
+  
+  .breathing-sadness {
+    animation: breathe-sadness var(--transition-breathing) infinite alternate;
+  }
+  
+  @keyframes breathe-calm {
+    0% { background-color: var(--color-background); }
+    100% { background-color: rgba(0, 212, 255, 0.05); }
+  }
+  
+  @keyframes breathe-anxiety {
+    0% { background-color: var(--color-background); }
+    100% { background-color: rgba(255, 215, 0, 0.05); }
+  }
+  
+  @keyframes breathe-rage {
+    0% { background-color: var(--color-background); }
+    100% { background-color: rgba(255, 68, 68, 0.05); }
+  }
+  
+  @keyframes breathe-sadness {
+    0% { background-color: var(--color-background); }
+    100% { background-color: rgba(168, 85, 247, 0.05); }
+  }
+  
+  /* Contextual Interface Glow */
+  .glow-calm {
+    box-shadow: 0 0 20px rgba(0, 212, 255, 0.1);
+    border: 1px solid rgba(0, 212, 255, 0.2);
+  }
+  
+  .glow-anxiety {
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.1);
+    border: 1px solid rgba(255, 215, 0, 0.2);
+  }
+  
+  .glow-rage {
+    box-shadow: 0 0 20px rgba(255, 68, 68, 0.1);
+    border: 1px solid rgba(255, 68, 68, 0.2);
+  }
+  
+  .glow-sadness {
+    box-shadow: 0 0 20px rgba(168, 85, 247, 0.1);
+    border: 1px solid rgba(168, 85, 247, 0.2);
+  }
+  
+  /* Progressive Text Revelation */
+  .typewriter {
+    overflow: hidden;
+    white-space: nowrap;
+    animation: typing 2s steps(40, end), blink-caret 0.75s step-end infinite;
+  }
+  
+  @keyframes typing {
+    from { width: 0; }
+    to { width: 100%; }
+  }
+  
+  @keyframes blink-caret {
+    from, to { border-color: transparent; }
+    50% { border-color: var(--color-accent); }
+  }
+  
+  /* Memory Visualization Traces */
+  .memory-trace {
+    opacity: 0.3;
+    transform: translateY(4px);
+    transition: all var(--transition-normal);
+  }
+  
+  .memory-trace:hover {
+    opacity: 0.6;
+    transform: translateY(0);
+  }
+  
+  /* Adaptive Typography Spacing */
+  .adaptive-text-calm {
+    letter-spacing: 0.025em;
+    line-height: 1.6;
+  }
+  
+  .adaptive-text-anxiety {
+    letter-spacing: 0.05em;
+    line-height: 1.7;
+  }
+  
+  .adaptive-text-rage {
+    letter-spacing: 0.1em;
+    line-height: 1.8;
+  }
+  
+  .adaptive-text-sadness {
+    letter-spacing: 0.075em;
+    line-height: 1.75;
+  }
+}
+
+@layer utilities {
+  /* Custom transition utilities */
+  .transition-fast {
+    transition: all var(--transition-fast);
+  }
+  
+  .transition-normal {
+    transition: all var(--transition-normal);
+  }
+  
+  .transition-glitch {
+    transition: all var(--transition-glitch);
+  }
+  
+  /* Custom shadow utilities */
+  .shadow-void {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+  }
+  
+  .shadow-glow {
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.05);
+  }
+  
+  /* Custom border utilities */
+  .border-subtle {
+    border: 1px solid rgba(160, 160, 160, 0.2);
+  }
+  
+  .border-accent {
+    border: 1px solid var(--color-accent);
+  }
+}

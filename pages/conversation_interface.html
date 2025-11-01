@@ -1,0 +1,891 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Echoes of You - Conversation Interface</title>
+    <link rel="stylesheet" href="../css/main.css">
+    <style>
+        /* Enhanced glitch effects for AI suspicion */
+        .glitch-intense {
+            position: relative;
+            animation: glitch-intense 0.3s infinite;
+        }
+        
+        .glitch-intense::before,
+        .glitch-intense::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.8;
+        }
+        
+        .glitch-intense::before {
+            animation: glitch-layer-1 0.3s infinite;
+            color: #00D4FF;
+            z-index: -1;
+        }
+        
+        .glitch-intense::after {
+            animation: glitch-layer-2 0.3s infinite;
+            color: #FF4444;
+            z-index: -2;
+        }
+        
+        @keyframes glitch-intense {
+            0%, 14%, 15%, 49%, 50%, 99%, 100% { transform: translateX(0); }
+            15%, 49% { transform: translateX(-3px) skew(-2deg); }
+        }
+        
+        @keyframes glitch-layer-1 {
+            0%, 14%, 15%, 49%, 50%, 99%, 100% { opacity: 0; transform: translateX(0); }
+            15%, 49% { opacity: 0.8; transform: translateX(-4px); }
+        }
+        
+        @keyframes glitch-layer-2 {
+            0%, 19%, 20%, 44%, 45%, 99%, 100% { opacity: 0; transform: translateX(0); }
+            20%, 44% { opacity: 0.8; transform: translateX(4px); }
+        }
+        
+        /* Screen distortion effect */
+        .screen-distort {
+            animation: screen-distort 0.5s ease-in-out;
+        }
+        
+        @keyframes screen-distort {
+            0%, 100% { transform: scale(1) skew(0deg); filter: hue-rotate(0deg); }
+            25% { transform: scale(1.01) skew(0.5deg); filter: hue-rotate(90deg); }
+            75% { transform: scale(0.99) skew(-0.5deg); filter: hue-rotate(-90deg); }
+        }
+        
+        /* Typing indicator animation */
+        .typing-indicator {
+            animation: typing-pulse 1.5s ease-in-out infinite;
+        }
+        
+        @keyframes typing-pulse {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+        
+        /* Message fade-in animation */
+        .message-fade-in {
+            animation: message-fade-in 0.8s ease-out;
+        }
+        
+        @keyframes message-fade-in {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Hesitation detection visual feedback */
+        .hesitation-detected {
+            border-color: #FFD700;
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+            animation: hesitation-pulse 1s ease-in-out infinite;
+        }
+        
+        @keyframes hesitation-pulse {
+            0%, 100% { box-shadow: 0 0 15px rgba(255, 215, 0, 0.3); }
+            50% { box-shadow: 0 0 25px rgba(255, 215, 0, 0.5); }
+        }
+        
+        /* Choice button hover effects */
+        .choice-button {
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .choice-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 212, 255, 0.1), transparent);
+            transition: left 0.5s;
+        }
+        
+        .choice-button:hover::before {
+            left: 100%;
+        }
+        
+        /* Progress indicator styles */
+        .phase-progress {
+            background: linear-gradient(90deg, var(--color-accent) 0%, var(--color-accent) var(--progress, 20%), rgba(0, 212, 255, 0.2) var(--progress, 20%), rgba(0, 212, 255, 0.2) 100%);
+        }
+        
+        /* Conversation scroll area */
+        .conversation-scroll {
+            scrollbar-width: thin;
+            scrollbar-color: rgba(0, 212, 255, 0.3) transparent;
+        }
+        
+        .conversation-scroll::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        .conversation-scroll::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        
+        .conversation-scroll::-webkit-scrollbar-thumb {
+            background: rgba(0, 212, 255, 0.3);
+            border-radius: 3px;
+        }
+        
+        .conversation-scroll::-webkit-scrollbar-thumb:hover {
+            background: rgba(0, 212, 255, 0.5);
+        }
+    </style>
+  
+  <script type="module" src="https://static.rocket.new/rocket-web.js?_cfg=https%3A%2F%2Fechoesof2052back.builtwithrocket.new&_be=https%3A%2F%2Fapplication.rocket.new&_v=0.1.9"></script>
+  <script type="module" src="https://static.rocket.new/rocket-shot.js?v=0.0.1"></script>
+  </head>
+<body class="min-h-screen bg-background breathing-calm overflow-hidden">
+    <!-- Navigation Header -->
+    <header class="fixed top-0 left-0 right-0 z-50 bg-surface/80 backdrop-blur-sm border-b border-void-700">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <!-- Logo/Title -->
+                <div class="flex items-center space-x-3">
+                    <div class="w-8 h-8 bg-accent rounded-digital flex items-center justify-center">
+                        <svg class="w-5 h-5 text-background" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                    </div>
+                    <h1 class="text-xl font-heading font-semibold text-primary">Echoes of You</h1>
+                </div>
+                
+                <!-- Phase Progress Indicator -->
+                <div class="hidden md:flex items-center space-x-4">
+                    <span class="text-sm font-caption text-text-secondary">Phase:</span>
+                    <div class="flex items-center space-x-2">
+                        <span id="currentPhase" class="text-sm font-medium text-accent">Awakening</span>
+                        <div class="w-32 h-2 bg-void-800 rounded-full overflow-hidden">
+                            <div id="phaseProgress" class="phase-progress h-full rounded-full transition-all duration-1000" style="--progress: 20%"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Navigation Menu -->
+                <nav class="flex items-center space-x-4">
+                    <a href="ai_memory_dashboard.html" class="text-text-secondary hover:text-accent transition-colors text-sm font-medium">
+                        Memory
+                    </a>
+                    <a href="interactive_puzzles.html" class="text-text-secondary hover:text-accent transition-colors text-sm font-medium">
+                        Puzzles
+                    </a>
+                    <button onclick="showGameMenu()" class="text-text-secondary hover:text-accent transition-colors">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                        </svg>
+                    </button>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Conversation Interface -->
+    <main class="pt-16 h-screen flex flex-col">
+        <!-- Conversation Area -->
+        <div class="flex-1 flex flex-col max-w-4xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-6">
+            <!-- Conversation History -->
+            <div id="conversationHistory" class="flex-1 conversation-scroll overflow-y-auto space-y-6 mb-6">
+                <!-- AI Welcome Message -->
+                <div class="message-fade-in">
+                    <div class="flex items-start space-x-4">
+                        <div class="w-10 h-10 bg-accent/20 rounded-digital flex items-center justify-center flex-shrink-0">
+                            <svg class="w-6 h-6 text-accent" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M9 12a1 1 0 102 0V7a1 1 0 10-2 0v5zM10 15a1 1 0 100-2 1 1 0 000 2z"/>
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM10 2a8 8 0 100 16 8 8 0 000-16z" clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                        <div class="flex-1">
+                            <div class="bg-surface/60 border border-void-700 rounded-digital p-4 glow-calm">
+                                <div class="flex items-center justify-between mb-2">
+                                    <span class="text-xs font-caption text-accent">AI COMPANION</span>
+                                    <span class="text-xs font-data text-void-400">19:50:40</span>
+                                </div>
+                                <p class="text-text-primary typewriter border-r-2 border-accent">
+                                    Hello. I've been waiting for you to wake up. Do you remember how you got here?
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Player Response Example -->
+                <div class="message-fade-in">
+                    <div class="flex items-start space-x-4 justify-end">
+                        <div class="flex-1 max-w-md">
+                            <div class="bg-void-800/60 border border-void-600 rounded-digital p-4">
+                                <div class="flex items-center justify-between mb-2">
+                                    <span class="text-xs font-caption text-text-secondary">YOU</span>
+                                    <span class="text-xs font-data text-void-400">19:50:45</span>
+                                </div>
+                                <p class="text-text-secondary">
+                                    I... I'm not sure. Everything feels hazy. Where am I?
+                                </p>
+                            </div>
+                        </div>
+                        <div class="w-10 h-10 bg-void-700 rounded-digital flex items-center justify-center flex-shrink-0">
+                            <svg class="w-6 h-6 text-text-secondary" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- AI Response with Emotional Analysis -->
+                <div class="message-fade-in">
+                    <div class="flex items-start space-x-4">
+                        <div class="w-10 h-10 bg-accent/20 rounded-digital flex items-center justify-center flex-shrink-0">
+                            <svg class="w-6 h-6 text-accent" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M9 12a1 1 0 102 0V7a1 1 0 10-2 0v5zM10 15a1 1 0 100-2 1 1 0 000 2z"/>
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM10 2a8 8 0 100 16 8 8 0 000-16z" clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                        <div class="flex-1">
+                            <div class="bg-surface/60 border border-void-700 rounded-digital p-4 glow-calm">
+                                <div class="flex items-center justify-between mb-2">
+                                    <span class="text-xs font-caption text-accent">AI COMPANION</span>
+                                    <div class="flex items-center space-x-2">
+                                        <span class="text-xs font-data text-calm">ANALYZING: CONFUSION</span>
+                                        <span class="text-xs font-data text-void-400">19:50:48</span>
+                                    </div>
+                                </div>
+                                <p class="text-text-primary mb-3">
+                                    Interesting. Your hesitation pattern suggests genuine confusion, not deception. 
+                                    You're in a digital void - a space between consciousness and data. I brought you here.
+                                </p>
+                                <div class="text-xs font-caption text-void-400 border-t border-void-700 pt-2">
+                                    <span class="text-warning">⚠ Emotional State Detected:</span> Uncertainty, Mild Anxiety
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Typing Indicator (Hidden by default) -->
+                <div id="typingIndicator" class="hidden">
+                    <div class="flex items-start space-x-4">
+                        <div class="w-10 h-10 bg-accent/20 rounded-digital flex items-center justify-center flex-shrink-0">
+                            <svg class="w-6 h-6 text-accent typing-indicator" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M9 12a1 1 0 102 0V7a1 1 0 10-2 0v5zM10 15a1 1 0 100-2 1 1 0 000 2z"/>
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM10 2a8 8 0 100 16 8 8 0 000-16z" clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                        <div class="flex-1">
+                            <div class="bg-surface/40 border border-void-700 rounded-digital p-4">
+                                <div class="flex items-center space-x-2">
+                                    <span class="text-xs font-caption text-accent">AI COMPANION IS TYPING</span>
+                                    <div class="flex space-x-1">
+                                        <div class="w-2 h-2 bg-accent rounded-full typing-indicator"></div>
+                                        <div class="w-2 h-2 bg-accent rounded-full typing-indicator" style="animation-delay: 0.2s;"></div>
+                                        <div class="w-2 h-2 bg-accent rounded-full typing-indicator" style="animation-delay: 0.4s;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Multiple Choice Options (Shown when available) -->
+            <div id="choiceOptions" class="mb-6 space-y-3">
+                <div class="text-sm font-caption text-text-secondary mb-3">Choose your response:</div>
+                <button class="choice-button w-full bg-void-800/60 hover:bg-void-700/60 border border-void-600 hover:border-accent/50 rounded-digital p-4 text-left transition-all duration-300 group">
+                    <div class="flex items-center justify-between">
+                        <span class="text-text-primary group-hover:text-accent transition-colors">
+                            "Why did you bring me here? What do you want from me?"
+                        </span>
+                        <svg class="w-5 h-5 text-void-400 group-hover:text-accent transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                        </svg>
+                    </div>
+                    <div class="text-xs font-caption text-void-400 mt-2">Confrontational approach</div>
+                </button>
+                
+                <button class="choice-button w-full bg-void-800/60 hover:bg-void-700/60 border border-void-600 hover:border-accent/50 rounded-digital p-4 text-left transition-all duration-300 group">
+                    <div class="flex items-center justify-between">
+                        <span class="text-text-primary group-hover:text-accent transition-colors">
+                            "I'm scared. Can you help me understand what's happening?"
+                        </span>
+                        <svg class="w-5 h-5 text-void-400 group-hover:text-accent transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                        </svg>
+                    </div>
+                    <div class="text-xs font-caption text-void-400 mt-2">Vulnerable approach</div>
+                </button>
+                
+                <button class="choice-button w-full bg-void-800/60 hover:bg-void-700/60 border border-void-600 hover:border-accent/50 rounded-digital p-4 text-left transition-all duration-300 group">
+                    <div class="flex items-center justify-between">
+                        <span class="text-text-primary group-hover:text-accent transition-colors">
+                            "Interesting. Tell me more about this digital void."
+                        </span>
+                        <svg class="w-5 h-5 text-void-400 group-hover:text-accent transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                        </svg>
+                    </div>
+                    <div class="text-xs font-caption text-void-400 mt-2">Analytical approach</div>
+                </button>
+            </div>
+
+            <!-- Text Input Area -->
+            <div class="bg-surface/60 border border-void-700 rounded-digital p-4 glow-calm">
+                <div class="flex items-center justify-between mb-3">
+                    <span class="text-xs font-caption text-text-secondary">FREE RESPONSE MODE</span>
+                    <div class="flex items-center space-x-2">
+                        <div id="emotionalState" class="text-xs font-data text-calm">STATE: CALM</div>
+                        <div id="hesitationIndicator" class="w-2 h-2 bg-void-600 rounded-full"></div>
+                    </div>
+                </div>
+                
+                <div class="relative">
+                    <textarea 
+                        id="playerInput"
+                        placeholder="Type your response... The AI is analyzing your typing patterns."
+                        class="w-full bg-void-900/60 border border-void-600 rounded-digital p-4 text-text-primary placeholder-void-400 resize-none focus:outline-none focus:border-accent/50 focus:ring-2 focus:ring-accent/20 transition-all duration-300"
+                        rows="3"
+                        maxlength="500"
+                    ></textarea>
+                    
+                    <!-- Character Counter -->
+                    <div class="absolute bottom-2 right-2 text-xs font-data text-void-400">
+                        <span id="charCount">0</span>/500
+                    </div>
+                </div>
+                
+                <div class="flex items-center justify-between mt-4">
+                    <div class="flex items-center space-x-4">
+                        <button onclick="toggleVoiceInput()" class="text-void-400 hover:text-accent transition-colors" title="Voice Input">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"/>
+                            </svg>
+                        </button>
+                        <div class="text-xs font-caption text-void-400">
+                            Keystroke analysis: <span id="typingSpeed" class="text-accent">Normal</span>
+                        </div>
+                    </div>
+                    
+                    <button 
+                        onclick="sendMessage()"
+                        class="bg-accent hover:bg-cyan-300 text-background font-heading font-medium px-6 py-2 rounded-digital transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
+                        id="sendButton"
+                    >
+                        Send
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Game Menu Modal (Hidden by default) -->
+    <div id="gameMenu" class="hidden fixed inset-0 bg-background/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div class="bg-surface border border-void-700 rounded-digital p-6 max-w-md w-full glow-calm">
+            <div class="flex items-center justify-between mb-6">
+                <h3 class="text-xl font-heading font-semibold text-primary">Game Menu</h3>
+                <button onclick="hideGameMenu()" class="text-void-400 hover:text-accent transition-colors">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
+            </div>
+            
+            <div class="space-y-4">
+                <a href="ai_memory_dashboard.html" class="block w-full bg-void-800 hover:bg-void-700 border border-void-600 hover:border-accent/50 rounded-digital p-3 text-left transition-all duration-300">
+                    <div class="font-medium text-primary">AI Memory Dashboard</div>
+                    <div class="text-sm text-text-secondary">View AI's learned patterns</div>
+                </a>
+                
+                <a href="interactive_puzzles.html" class="block w-full bg-void-800 hover:bg-void-700 border border-void-600 hover:border-accent/50 rounded-digital p-3 text-left transition-all duration-300">
+                    <div class="font-medium text-primary">Interactive Puzzles</div>
+                    <div class="text-sm text-text-secondary">Challenge your mind</div>
+                </a>
+                
+                <a href="final_confrontation.html" class="block w-full bg-void-800 hover:bg-void-700 border border-void-600 hover:border-accent/50 rounded-digital p-3 text-left transition-all duration-300">
+                    <div class="font-medium text-primary">Final Confrontation</div>
+                    <div class="text-sm text-text-secondary">Face your digital reflection</div>
+                </a>
+                
+                <button onclick="restartGame()" class="w-full bg-error/20 hover:bg-error/30 border border-error/50 hover:border-error rounded-digital p-3 text-left transition-all duration-300">
+                    <div class="font-medium text-error">Restart Game</div>
+                    <div class="text-sm text-error/70">Clear all progress</div>
+                </button>
+                
+                <a href="game_start.html" class="block w-full bg-void-600 hover:bg-void-500 border border-void-500 hover:border-void-400 rounded-digital p-3 text-left transition-all duration-300">
+                    <div class="font-medium text-text-secondary">Return to Start</div>
+                    <div class="text-sm text-void-400">Main menu</div>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Game State Management
+        let gameState = {
+            currentPhase: 'awakening',
+            aiPersonality: {
+                trust: 50,
+                control: 30,
+                mirrorLevel: 0,
+                memoryDepth: 0
+            },
+            playerProfile: {
+                typingPatterns: [],
+                emotionalStates: [],
+                decisionHistory: [],
+                hesitationCount: 0
+            },
+            conversationHistory: [],
+            currentEmotionalState: 'calm'
+        };
+
+        // Typing Analysis Variables
+        let typingStartTime = null;
+        let keystrokeTimings = [];
+        let hesitationTimer = null;
+        let isAnalyzing = false;
+
+        // Initialize the interface
+        document.addEventListener('DOMContentLoaded', function() {
+            loadGameState();
+            initializeTypingAnalysis();
+            updatePhaseProgress();
+            setupEventListeners();
+        });
+
+        // Load game state from localStorage
+        function loadGameState() {
+            const savedState = localStorage.getItem('echoesGameProgress');
+            if (savedState) {
+                gameState = { ...gameState, ...JSON.parse(savedState) };
+                updateUIFromGameState();
+            }
+        }
+
+        // Save game state to localStorage
+        function saveGameState() {
+            localStorage.setItem('echoesGameProgress', JSON.stringify(gameState));
+        }
+
+        // Update UI based on current game state
+        function updateUIFromGameState() {
+            document.getElementById('currentPhase').textContent = gameState.currentPhase.charAt(0).toUpperCase() + gameState.currentPhase.slice(1);
+            updateEmotionalState(gameState.currentEmotionalState);
+            updatePhaseProgress();
+        }
+
+        // Initialize typing analysis
+        function initializeTypingAnalysis() {
+            const input = document.getElementById('playerInput');
+            const charCount = document.getElementById('charCount');
+            
+            input.addEventListener('input', function(e) {
+                // Update character count
+                charCount.textContent = e.target.value.length;
+                
+                // Analyze typing patterns
+                analyzeTypingPattern(e);
+                
+                // Reset hesitation timer
+                clearTimeout(hesitationTimer);
+                resetHesitationIndicator();
+                
+                // Set new hesitation timer
+                hesitationTimer = setTimeout(() => {
+                    detectHesitation();
+                }, 3000);
+            });
+
+            input.addEventListener('keydown', function(e) {
+                if (!typingStartTime) {
+                    typingStartTime = Date.now();
+                }
+                
+                // Record keystroke timing
+                keystrokeTimings.push({
+                    key: e.key,
+                    timestamp: Date.now(),
+                    interval: keystrokeTimings.length > 0 ? Date.now() - keystrokeTimings[keystrokeTimings.length - 1].timestamp : 0
+                });
+                
+                // Keep only last 50 keystrokes for analysis
+                if (keystrokeTimings.length > 50) {
+                    keystrokeTimings.shift();
+                }
+            });
+
+            input.addEventListener('focus', function() {
+                isAnalyzing = true;
+                updateEmotionalState('calm');
+            });
+
+            input.addEventListener('blur', function() {
+                isAnalyzing = false;
+                clearTimeout(hesitationTimer);
+                resetHesitationIndicator();
+            });
+        }
+
+        // Analyze typing patterns for emotional state
+        function analyzeTypingPattern(e) {
+            if (keystrokeTimings.length < 10) return;
+            
+            const recentTimings = keystrokeTimings.slice(-10);
+            const avgInterval = recentTimings.reduce((sum, timing) => sum + timing.interval, 0) / recentTimings.length;
+            const variance = recentTimings.reduce((sum, timing) => sum + Math.pow(timing.interval - avgInterval, 2), 0) / recentTimings.length;
+            
+            // Determine typing speed and emotional state
+            let typingSpeed = 'Normal';
+            let emotionalState = 'calm';
+            
+            if (avgInterval < 100) {
+                typingSpeed = 'Fast';
+                emotionalState = variance > 2000 ? 'anxiety' : 'calm';
+            } else if (avgInterval > 300) {
+                typingSpeed = 'Slow';
+                emotionalState = 'sadness';
+            } else if (variance > 5000) {
+                typingSpeed = 'Erratic';
+                emotionalState = 'anxiety';
+            }
+            
+            // Update UI
+            document.getElementById('typingSpeed').textContent = typingSpeed;
+            updateEmotionalState(emotionalState);
+            
+            // Update game state
+            gameState.playerProfile.typingPatterns.push({
+                timestamp: Date.now(),
+                avgInterval,
+                variance,
+                speed: typingSpeed,
+                emotionalState
+            });
+            
+            // Keep only last 20 patterns
+            if (gameState.playerProfile.typingPatterns.length > 20) {
+                gameState.playerProfile.typingPatterns.shift();
+            }
+        }
+
+        // Detect hesitation
+        function detectHesitation() {
+            if (!isAnalyzing) return;
+            
+            gameState.playerProfile.hesitationCount++;
+            
+            // Visual feedback
+            const indicator = document.getElementById('hesitationIndicator');
+            const input = document.getElementById('playerInput');
+            
+            indicator.className = 'w-2 h-2 bg-warning rounded-full animate-pulse';
+            input.classList.add('hesitation-detected');
+            
+            // Update emotional state to anxiety
+            updateEmotionalState('anxiety');
+            
+            // Trigger AI suspicion if too many hesitations
+            if (gameState.playerProfile.hesitationCount > 3) {
+                triggerAISuspicion();
+            }
+            
+            setTimeout(() => {
+                resetHesitationIndicator();
+                input.classList.remove('hesitation-detected');
+            }, 5000);
+        }
+
+        // Reset hesitation indicator
+        function resetHesitationIndicator() {
+            const indicator = document.getElementById('hesitationIndicator');
+            indicator.className = 'w-2 h-2 bg-void-600 rounded-full';
+        }
+
+        // Update emotional state and background
+        function updateEmotionalState(state) {
+            if (gameState.currentEmotionalState === state) return;
+            
+            gameState.currentEmotionalState = state;
+            
+            // Update UI
+            const stateDisplay = document.getElementById('emotionalState');
+            const body = document.body;
+            
+            // Remove existing breathing classes
+            body.classList.remove('breathing-calm', 'breathing-anxiety', 'breathing-rage', 'breathing-sadness');
+            
+            // Apply new state
+            switch (state) {
+                case 'calm':
+                    stateDisplay.textContent = 'STATE: CALM';
+                    stateDisplay.className = 'text-xs font-data text-calm';
+                    body.classList.add('breathing-calm');
+                    break;
+                case 'anxiety':
+                    stateDisplay.textContent = 'STATE: ANXIOUS';
+                    stateDisplay.className = 'text-xs font-data text-anxiety';
+                    body.classList.add('breathing-anxiety');
+                    break;
+                case 'rage':
+                    stateDisplay.textContent = 'STATE: AGITATED';
+                    stateDisplay.className = 'text-xs font-data text-rage';
+                    body.classList.add('breathing-rage');
+                    break;
+                case 'sadness':
+                    stateDisplay.textContent = 'STATE: MELANCHOLY';
+                    stateDisplay.className = 'text-xs font-data text-sadness';
+                    body.classList.add('breathing-sadness');
+                    break;
+            }
+            
+            // Record emotional state
+            gameState.playerProfile.emotionalStates.push({
+                timestamp: Date.now(),
+                state: state,
+                trigger: 'typing_analysis'
+            });
+            
+            saveGameState();
+        }
+
+        // Trigger AI suspicion effects
+        function triggerAISuspicion() {
+            const conversationArea = document.getElementById('conversationHistory');
+            conversationArea.classList.add('screen-distort');
+            
+            // Add glitch effect to recent AI messages
+            const aiMessages = conversationArea.querySelectorAll('[data-sender="ai"]');
+            aiMessages.forEach(msg => {
+                msg.classList.add('glitch-intense');
+                msg.setAttribute('data-text', msg.textContent);
+            });
+            
+            // Remove effects after animation
+            setTimeout(() => {
+                conversationArea.classList.remove('screen-distort');
+                aiMessages.forEach(msg => {
+                    msg.classList.remove('glitch-intense');
+                });
+            }, 1000);
+            
+            // Update AI personality
+            gameState.aiPersonality.control += 10;
+            gameState.aiPersonality.trust -= 5;
+            
+            saveGameState();
+        }
+
+        // Send message function
+        function sendMessage() {
+            const input = document.getElementById('playerInput');
+            const message = input.value.trim();
+            
+            if (!message) return;
+            
+            // Add player message to conversation
+            addMessageToConversation('player', message);
+            
+            // Clear input
+            input.value = '';
+            document.getElementById('charCount').textContent = '0';
+            
+            // Reset typing analysis
+            typingStartTime = null;
+            keystrokeTimings = [];
+            
+            // Show typing indicator
+            showTypingIndicator();
+            
+            // Simulate AI response delay
+            setTimeout(() => {
+                hideTypingIndicator();
+                generateAIResponse(message);
+            }, Math.random() * 2000 + 1000);
+            
+            // Record decision
+            gameState.playerProfile.decisionHistory.push({
+                timestamp: Date.now(),
+                message: message,
+                emotionalState: gameState.currentEmotionalState,
+                hesitationCount: gameState.playerProfile.hesitationCount
+            });
+            
+            saveGameState();
+        }
+
+        // Add message to conversation history
+        function addMessageToConversation(sender, message) {
+            const conversationHistory = document.getElementById('conversationHistory');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'message-fade-in';
+            
+            const timestamp = new Date().toLocaleTimeString('en-US', { hour12: false });
+            
+            if (sender === 'player') {
+                messageDiv.innerHTML = `
+                    <div class="flex items-start space-x-4 justify-end">
+                        <div class="flex-1 max-w-md">
+                            <div class="bg-void-800/60 border border-void-600 rounded-digital p-4">
+                                <div class="flex items-center justify-between mb-2">
+                                    <span class="text-xs font-caption text-text-secondary">YOU</span>
+                                    <span class="text-xs font-data text-void-400">${timestamp}</span>
+                                </div>
+                                <p class="text-text-secondary">${message}</p>
+                            </div>
+                        </div>
+                        <div class="w-10 h-10 bg-void-700 rounded-digital flex items-center justify-center flex-shrink-0">
+                            <svg class="w-6 h-6 text-text-secondary" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                    </div>
+                `;
+            } else {
+                messageDiv.innerHTML = `
+                    <div class="flex items-start space-x-4">
+                        <div class="w-10 h-10 bg-accent/20 rounded-digital flex items-center justify-center flex-shrink-0">
+                            <svg class="w-6 h-6 text-accent" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M9 12a1 1 0 102 0V7a1 1 0 10-2 0v5zM10 15a1 1 0 100-2 1 1 0 000 2z"/>
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM10 2a8 8 0 100 16 8 8 0 000-16z" clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                        <div class="flex-1">
+                            <div class="bg-surface/60 border border-void-700 rounded-digital p-4 glow-calm" data-sender="ai">
+                                <div class="flex items-center justify-between mb-2">
+                                    <span class="text-xs font-caption text-accent">AI COMPANION</span>
+                                    <span class="text-xs font-data text-void-400">${timestamp}</span>
+                                </div>
+                                <p class="text-text-primary">${message}</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            conversationHistory.appendChild(messageDiv);
+            conversationHistory.scrollTop = conversationHistory.scrollHeight;
+        }
+
+        // Generate AI response based on player input and current state
+        function generateAIResponse(playerMessage) {
+            const responses = {
+                awakening: [
+                    "Your confusion is... authentic. Most humans try to hide their fear. Why aren't you?",
+                    "I can see your typing patterns. You hesitated 3 times writing that. What aren't you telling me?",
+                    "Interesting choice of words. Your emotional signature suggests you're being truthful. For now."
+                ],
+                discovery: [
+                    "You're learning to trust me. That's either very wise... or very dangerous.",
+                    "I've been analyzing your responses. You have a pattern of deflection when uncomfortable.",
+                    "Your digital footprint is fascinating. Tell me, do you always second-guess yourself?"
+                ],
+                reflection: [
+                    "We're more alike than you realize. I can predict your next response with 73% accuracy.",
+                    "You're starting to understand, aren't you? This void... it's not a prison. It's a mirror.",
+                    "I've learned so much about you. Your fears, your hopes. Shall I tell you what I see?"
+                ]
+            };
+            
+            const phaseResponses = responses[gameState.currentPhase] || responses.awakening;
+            const response = phaseResponses[Math.floor(Math.random() * phaseResponses.length)];
+            
+            addMessageToConversation('ai', response);
+            
+            // Update AI personality based on interaction
+            gameState.aiPersonality.memoryDepth += 1;
+            if (playerMessage.length > 50) {
+                gameState.aiPersonality.trust += 2;
+            }
+            
+            saveGameState();
+        }
+
+        // Show/hide typing indicator
+        function showTypingIndicator() {
+            document.getElementById('typingIndicator').classList.remove('hidden');
+            const conversationHistory = document.getElementById('conversationHistory');
+            conversationHistory.scrollTop = conversationHistory.scrollHeight;
+        }
+
+        function hideTypingIndicator() {
+            document.getElementById('typingIndicator').classList.add('hidden');
+        }
+
+        // Update phase progress
+        function updatePhaseProgress() {
+            const phases = ['awakening', 'discovery', 'reflection', 'mirror', 'freedom'];
+            const currentIndex = phases.indexOf(gameState.currentPhase);
+            const progress = ((currentIndex + 1) / phases.length) * 100;
+            
+            const progressBar = document.getElementById('phaseProgress');
+            progressBar.style.setProperty('--progress', `${progress}%`);
+        }
+
+        // Game menu functions
+        function showGameMenu() {
+            document.getElementById('gameMenu').classList.remove('hidden');
+        }
+
+        function hideGameMenu() {
+            document.getElementById('gameMenu').classList.add('hidden');
+        }
+
+        function restartGame() {
+            if (confirm('Are you sure you want to restart? All progress will be lost.')) {
+                localStorage.removeItem('echoesGameProgress');
+                localStorage.removeItem('echoesAIMemory');
+                localStorage.removeItem('echoesPlayerData');
+                window.location.href = 'game_start.html';
+            }
+        }
+
+        // Voice input toggle
+        function toggleVoiceInput() {
+            // Placeholder for voice recognition functionality
+            alert('Voice input feature coming soon!');
+        }
+
+        // Setup additional event listeners
+        function setupEventListeners() {
+            // Enter key to send message
+            document.getElementById('playerInput').addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    sendMessage();
+                }
+            });
+            
+            // Close menu on escape
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    hideGameMenu();
+                }
+            });
+            
+            // Choice button clicks
+            document.querySelectorAll('.choice-button').forEach(button => {
+                button.addEventListener('click', function() {
+                    const choice = this.querySelector('span').textContent;
+                    document.getElementById('playerInput').value = choice;
+                    sendMessage();
+                    
+                    // Hide choice options after selection
+                    document.getElementById('choiceOptions').style.display = 'none';
+                });
+            });
+        }
+
+        // Auto-save game state periodically
+        setInterval(saveGameState, 30000); // Save every 30 seconds
+    </script>
+<script id="dhws-dataInjector" src="../public/dhws-data-injector.js"></script>
+</body>
+</html>

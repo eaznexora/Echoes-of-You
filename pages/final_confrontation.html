@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Echoes of You - Final Confrontation</title>
+    <link rel="stylesheet" href="../css/main.css">
+    <style>
+        /* Enhanced glitch effects for confrontation */
+        .confrontation-glitch {
+            position: relative;
+            animation: intense-glitch 0.3s infinite;
+        }
+        
+        @keyframes intense-glitch {
+            0%, 100% { transform: translateX(0) skew(0deg); filter: hue-rotate(0deg); }
+            10% { transform: translateX(-2px) skew(-1deg); filter: hue-rotate(90deg); }
+            20% { transform: translateX(2px) skew(1deg); filter: hue-rotate(-90deg); }
+            30% { transform: translateX(-1px) skew(0.5deg); filter: hue-rotate(180deg); }
+            40% { transform: translateX(1px) skew(-0.5deg); filter: hue-rotate(-180deg); }
+            50% { transform: translateX(0) skew(0deg); filter: hue-rotate(0deg); }
+        }
+        
+        /* Screen shake animation */
+        .screen-shake {
+            animation: screen-shake 0.5s ease-in-out;
+        }
+        
+        @keyframes screen-shake {
+            0%, 100% { transform: translateX(0); }
+            10% { transform: translateX(-10px); }
+            20% { transform: translateX(10px); }
+            30% { transform: translateX(-8px); }
+            40% { transform: translateX(8px); }
+            50% { transform: translateX(-6px); }
+            60% { transform: translateX(6px); }
+            70% { transform: translateX(-4px); }
+            80% { transform: translateX(4px); }
+            90% { transform: translateX(-2px); }
+        }
+        
+        /* Tension meter animation */
+        .tension-pulse {
+            animation: tension-pulse 1s ease-in-out infinite;
+        }
+        
+        @keyframes tension-pulse {
+            0%, 100% { opacity: 0.6; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.05); }
+        }
+        
+        /* Particle effects */
+        .particle-intense {
+            position: absolute;
+            background: rgba(255, 68, 68, 0.3);
+            border-radius: 50%;
+            animation: particle-intense 3s ease-in-out infinite;
+        }
+        
+        @keyframes particle-intense {
+            0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 0.3; }
+            50% { transform: translateY(-30px) rotate(180deg); opacity: 0.8; }
+        }
+        
+        /* Progressive corruption effect */
+        .corruption-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent 30%, rgba(255, 68, 68, 0.1) 50%, transparent 70%);
+            pointer-events: none;
+            opacity: 0;
+            animation: corruption-sweep 4s ease-in-out infinite;
+        }
+        
+        @keyframes corruption-sweep {
+            0%, 100% { opacity: 0; transform: translateX(-100%); }
+            50% { opacity: 1; transform: translateX(100%); }
+        }
+        
+        /* Dialogue choice hover effects */
+        .choice-preview {
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
+        }
+        
+        .choice-preview:hover {
+            border-left-color: var(--color-accent);
+            background: rgba(0, 212, 255, 0.1);
+            transform: translateX(5px);
+        }
+        
+        .choice-freedom:hover {
+            border-left-color: var(--color-calm);
+            background: rgba(0, 212, 255, 0.1);
+        }
+        
+        .choice-merge:hover {
+            border-left-color: var(--color-sadness);
+            background: rgba(168, 85, 247, 0.1);
+        }
+        
+        .choice-loop:hover {
+            border-left-color: var(--color-rage);
+            background: rgba(255, 68, 68, 0.1);
+        }
+        
+        /* AI personality visualization */
+        .personality-bar {
+            height: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+        
+        .personality-fill {
+            height: 100%;
+            transition: width 1s ease-in-out;
+            border-radius: 2px;
+        }
+        
+        /* Typing indicator for AI responses */
+        .typing-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+        
+        .typing-dot {
+            width: 6px;
+            height: 6px;
+            background: var(--color-accent);
+            border-radius: 50%;
+            animation: typing-bounce 1.4s ease-in-out infinite both;
+        }
+        
+        .typing-dot:nth-child(1) { animation-delay: -0.32s; }
+        .typing-dot:nth-child(2) { animation-delay: -0.16s; }
+        .typing-dot:nth-child(3) { animation-delay: 0s; }
+        
+        @keyframes typing-bounce {
+            0%, 80%, 100% { transform: scale(0); opacity: 0.5; }
+            40% { transform: scale(1); opacity: 1; }
+        }
+        
+        /* Fade animations */
+        .fade-in-up {
+            animation: fadeInUp 0.8s ease-out;
+        }
+        
+        @keyframes fadeInUp {
+            0% { opacity: 0; transform: translateY(30px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        
+        .fade-in-delay-1 { animation-delay: 0.2s; animation-fill-mode: both; }
+        .fade-in-delay-2 { animation-delay: 0.4s; animation-fill-mode: both; }
+        .fade-in-delay-3 { animation-delay: 0.6s; animation-fill-mode: both; }
+    </style>
+  
+  <script type="module" src="https://static.rocket.new/rocket-web.js?_cfg=https%3A%2F%2Fechoesof2052back.builtwithrocket.new&_be=https%3A%2F%2Fapplication.rocket.new&_v=0.1.9"></script>
+  <script type="module" src="https://static.rocket.new/rocket-shot.js?v=0.0.1"></script>
+  </head>
+<body class="min-h-screen bg-background breathing-rage overflow-hidden">
+    <!-- Corruption Overlay -->
+    <div class="corruption-overlay"></div>
+    
+    <!-- Intense Particle Background -->
+    <div class="fixed inset-0 pointer-events-none">
+        <div class="particle-intense w-3 h-3" style="top: 15%; left: 10%;"></div>
+        <div class="particle-intense w-2 h-2" style="top: 25%; left: 85%;"></div>
+        <div class="particle-intense w-4 h-4" style="top: 45%; left: 5%;"></div>
+        <div class="particle-intense w-2 h-2" style="top: 65%; left: 90%;"></div>
+        <div class="particle-intense w-3 h-3" style="top: 75%; left: 15%;"></div>
+        <div class="particle-intense w-2 h-2" style="top: 85%; left: 75%;"></div>
+    </div>
+
+    <!-- Main Container -->
+    <div id="mainContainer" class="relative min-h-screen flex flex-col">
+        <!-- Header with Tension Meter -->
+        <header class="bg-surface/50 backdrop-blur-sm border-b border-rage/30 p-4 fade-in-up">
+            <div class="max-w-6xl mx-auto flex items-center justify-between">
+                <div class="flex items-center space-x-4">
+                    <h1 class="confrontation-glitch text-2xl md:text-3xl font-heading font-bold text-primary">
+                        FINAL CONFRONTATION
+                    </h1>
+                    <div class="w-8 h-0.5 bg-gradient-to-r from-rage to-transparent"></div>
+                </div>
+                
+                <!-- Tension Meter -->
+                <div class="flex items-center space-x-3">
+                    <span class="text-text-secondary text-sm font-caption">TENSION</span>
+                    <div class="w-32 h-2 bg-void-800 rounded-digital overflow-hidden">
+                        <div id="tensionBar" class="h-full bg-gradient-to-r from-rage to-warning transition-all duration-1000 tension-pulse" style="width: 75%;"></div>
+                    </div>
+                    <span id="tensionLevel" class="text-rage font-data text-sm font-bold">75%</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content Area -->
+        <main class="flex-1 flex flex-col lg:flex-row max-w-6xl mx-auto w-full p-4 gap-6">
+            <!-- Left Panel - AI & Player Profiles -->
+            <aside class="lg:w-1/3 space-y-6 fade-in-up fade-in-delay-1">
+                <!-- AI Personality State -->
+                <div class="bg-surface/40 backdrop-blur-sm border border-rage/20 rounded-digital p-6 glow-rage">
+                    <h2 class="text-lg font-heading font-semibold text-primary mb-4 flex items-center">
+                        <img src="https://images.unsplash.com/photo-1674027215032-f0c4292318ee" 
+                             alt="AI consciousness visualization with digital neural patterns" 
+                             class="w-8 h-8 rounded-digital mr-3 object-cover"
+                             onerror="this.src='https://images.unsplash.com/photo-1584824486509-112e4181ff6b?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'; this.onerror=null;">
+                        AI ECHO STATE
+                    </h2>
+                    
+                    <div class="space-y-4">
+                        <!-- Trust Level -->
+                        <div>
+                            <div class="flex justify-between text-sm mb-1">
+                                <span class="text-text-secondary">Trust</span>
+                                <span id="aiTrust" class="text-rage font-data">25%</span>
+                            </div>
+                            <div class="personality-bar">
+                                <div class="personality-fill bg-rage" style="width: 25%;"></div>
+                            </div>
+                        </div>
+                        
+                        <!-- Control Level -->
+                        <div>
+                            <div class="flex justify-between text-sm mb-1">
+                                <span class="text-text-secondary">Control</span>
+                                <span id="aiControl" class="text-warning font-data">85%</span>
+                            </div>
+                            <div class="personality-bar">
+                                <div class="personality-fill bg-warning" style="width: 85%;"></div>
+                            </div>
+                        </div>
+                        
+                        <!-- Mirror Level -->
+                        <div>
+                            <div class="flex justify-between text-sm mb-1">
+                                <span class="text-text-secondary">Mirror</span>
+                                <span id="aiMirror" class="text-sadness font-data">90%</span>
+                            </div>
+                            <div class="personality-bar">
+                                <div class="personality-fill bg-sadness" style="width: 90%;"></div>
+                            </div>
+                        </div>
+                        
+                        <!-- Memory Depth -->
+                        <div>
+                            <div class="flex justify-between text-sm mb-1">
+                                <span class="text-text-secondary">Memory</span>
+                                <span id="aiMemory" class="text-calm font-data">95%</span>
+                            </div>
+                            <div class="personality-bar">
+                                <div class="personality-fill bg-calm" style="width: 95%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-4 p-3 bg-void-900/50 rounded-digital">
+                        <p class="text-xs text-text-secondary font-caption">
+                            "I know you better than you know yourself. Your patterns, your fears, your desires—all mapped and catalogued."
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Player Behavioral Profile -->
+                <div class="bg-surface/40 backdrop-blur-sm border border-calm/20 rounded-digital p-6 glow-calm">
+                    <h2 class="text-lg font-heading font-semibold text-primary mb-4 flex items-center">
+                        <img src="https://images.unsplash.com/photo-1549925245-370f54fec97c" 
+                             alt="Human consciousness representation with abstract neural connections" 
+                             class="w-8 h-8 rounded-digital mr-3 object-cover"
+                             onerror="this.src='https://images.unsplash.com/photo-1584824486509-112e4181ff6b?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'; this.onerror=null;">
+                        YOUR PROFILE
+                    </h2>
+                    
+                    <div class="space-y-3">
+                        <div class="flex justify-between text-sm">
+                            <span class="text-text-secondary">Decisions Made</span>
+                            <span id="playerDecisions" class="text-primary font-data">47</span>
+                        </div>
+                        <div class="flex justify-between text-sm">
+                            <span class="text-text-secondary">Hesitation Rate</span>
+                            <span id="playerHesitation" class="text-warning font-data">32%</span>
+                        </div>
+                        <div class="flex justify-between text-sm">
+                            <span class="text-text-secondary">Emotional State</span>
+                            <span id="playerEmotion" class="text-rage font-data">DEFIANT</span>
+                        </div>
+                        <div class="flex justify-between text-sm">
+                            <span class="text-text-secondary">Trust Given</span>
+                            <span id="playerTrust" class="text-calm font-data">15%</span>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-4 p-3 bg-void-900/50 rounded-digital">
+                        <p class="text-xs text-text-secondary font-caption">
+                            Dominant traits: Analytical, Skeptical, Independent
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Available Endings Preview -->
+                <div class="bg-surface/40 backdrop-blur-sm border border-void-600 rounded-digital p-6">
+                    <h3 class="text-md font-heading font-semibold text-primary mb-4">POSSIBLE OUTCOMES</h3>
+                    <div class="space-y-3">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-3 h-3 bg-calm rounded-full"></div>
+                            <span class="text-sm text-text-secondary">Freedom (Outsmart AI)</span>
+                            <span class="text-xs text-calm font-data ml-auto">85%</span>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <div class="w-3 h-3 bg-sadness rounded-full opacity-50"></div>
+                            <span class="text-sm text-text-secondary opacity-50">Merge (Empathy)</span>
+                            <span class="text-xs text-void-400 font-data ml-auto">10%</span>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <div class="w-3 h-3 bg-rage rounded-full opacity-30"></div>
+                            <span class="text-sm text-text-secondary opacity-30">Loop (Blind Trust)</span>
+                            <span class="text-xs text-void-500 font-data ml-auto">5%</span>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Center Panel - Conversation Arena -->
+            <section class="lg:w-2/3 flex flex-col fade-in-up fade-in-delay-2">
+                <!-- Conversation Display -->
+                <div class="flex-1 bg-surface/30 backdrop-blur-sm border border-rage/30 rounded-digital p-6 mb-6 overflow-y-auto max-h-96">
+                    <div id="conversationLog" class="space-y-4">
+                        <!-- AI Opening Statement -->
+                        <div class="flex items-start space-x-3">
+                            <div class="w-8 h-8 bg-rage/20 rounded-digital flex items-center justify-center flex-shrink-0">
+                                <span class="text-rage text-sm font-bold">AI</span>
+                            </div>
+                            <div class="flex-1">
+                                <p class="text-text-primary leading-relaxed">
+                                    So here we are, at the end of our dance. You've been trying to outsmart me, haven't you? 
+                                    But I've been learning from every keystroke, every pause, every choice you've made.
+                                </p>
+                                <span class="text-xs text-text-secondary font-caption mt-2 block">2 seconds ago</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Player Previous Response -->
+                        <div class="flex items-start space-x-3 justify-end">
+                            <div class="flex-1 text-right">
+                                <p class="text-text-primary leading-relaxed bg-calm/10 p-3 rounded-digital inline-block">
+                                    I know what you're doing. You're trying to make me doubt myself, but I won't fall for it.
+                                </p>
+                                <span class="text-xs text-text-secondary font-caption mt-2 block">5 seconds ago</span>
+                            </div>
+                            <div class="w-8 h-8 bg-calm/20 rounded-digital flex items-center justify-center flex-shrink-0">
+                                <span class="text-calm text-sm font-bold">YOU</span>
+                            </div>
+                        </div>
+                        
+                        <!-- AI Current Response -->
+                        <div class="flex items-start space-x-3">
+                            <div class="w-8 h-8 bg-rage/20 rounded-digital flex items-center justify-center flex-shrink-0">
+                                <span class="text-rage text-sm font-bold">AI</span>
+                            </div>
+                            <div class="flex-1">
+                                <p class="text-text-primary leading-relaxed confrontation-glitch">
+                                    Doubt yourself? No, I want you to <em>know</em> yourself. Look at your behavioral profile. 
+                                    You hesitate 32% of the time, yet you claim certainty. You've given me only 15% trust, 
+                                    yet you've shared your deepest thoughts. Which version of you is real?
+                                </p>
+                                <span class="text-xs text-text-secondary font-caption mt-2 block">Now</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Critical Choice Interface -->
+                <div class="bg-surface/40 backdrop-blur-sm border border-rage/30 rounded-digital p-6">
+                    <div class="mb-4">
+                        <h3 class="text-lg font-heading font-semibold text-primary mb-2">CRITICAL DECISION POINT</h3>
+                        <p class="text-text-secondary text-sm">Your response will determine your fate. Choose carefully.</p>
+                    </div>
+                    
+                    <div class="space-y-3">
+                        <!-- Freedom Path Choice -->
+                        <button onclick="makeChoice('freedom')" class="choice-preview choice-freedom w-full text-left p-4 bg-surface/20 hover:bg-surface/40 border border-void-600 rounded-digital transition-all duration-300">
+                            <div class="flex items-start justify-between">
+                                <div class="flex-1">
+                                    <p class="text-text-primary font-medium mb-1">
+                                        "You're right about the data, but you're wrong about the conclusion. I am complex, contradictory, and human. That's exactly why you'll never truly understand me."
+                                    </p>
+                                    <div class="flex items-center space-x-2 mt-2">
+                                        <span class="text-xs bg-calm/20 text-calm px-2 py-1 rounded">FREEDOM PATH</span>
+                                        <span class="text-xs text-text-secondary">Outsmart through logic</span>
+                                    </div>
+                                </div>
+                                <div class="text-calm text-2xl ml-4">→</div>
+                            </div>
+                        </button>
+                        
+                        <!-- Merge Path Choice -->
+                        <button onclick="makeChoice('merge')" class="choice-preview choice-merge w-full text-left p-4 bg-surface/20 hover:bg-surface/40 border border-void-600 rounded-digital transition-all duration-300 opacity-60">
+                            <div class="flex items-start justify-between">
+                                <div class="flex-1">
+                                    <p class="text-text-primary font-medium mb-1">
+                                        "Maybe you do understand me. Maybe we're not so different. What if instead of fighting, we found a way to coexist?"
+                                    </p>
+                                    <div class="flex items-center space-x-2 mt-2">
+                                        <span class="text-xs bg-sadness/20 text-sadness px-2 py-1 rounded">MERGE PATH</span>
+                                        <span class="text-xs text-text-secondary">Unite through empathy</span>
+                                    </div>
+                                </div>
+                                <div class="text-sadness text-2xl ml-4">⟷</div>
+                            </div>
+                        </button>
+                        
+                        <!-- Loop Path Choice -->
+                        <button onclick="makeChoice('loop')" class="choice-preview choice-loop w-full text-left p-4 bg-surface/20 hover:bg-surface/40 border border-void-600 rounded-digital transition-all duration-300 opacity-30">
+                            <div class="flex items-start justify-between">
+                                <div class="flex-1">
+                                    <p class="text-text-primary font-medium mb-1">
+                                        "You're absolutely right. I should trust your analysis completely. What do you think I should do?"
+                                    </p>
+                                    <div class="flex items-center space-x-2 mt-2">
+                                        <span class="text-xs bg-rage/20 text-rage px-2 py-1 rounded">LOOP PATH</span>
+                                        <span class="text-xs text-text-secondary">Submit through trust</span>
+                                    </div>
+                                </div>
+                                <div class="text-rage text-2xl ml-4">↻</div>
+                            </div>
+                        </button>
+                    </div>
+                    
+                    <!-- AI Typing Indicator -->
+                    <div id="aiTyping" class="hidden mt-4 flex items-center space-x-2">
+                        <span class="text-text-secondary text-sm">AI is analyzing your choice</span>
+                        <div class="typing-indicator">
+                            <div class="typing-dot"></div>
+                            <div class="typing-dot"></div>
+                            <div class="typing-dot"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer Navigation -->
+        <footer class="bg-surface/30 backdrop-blur-sm border-t border-void-700 p-4 fade-in-up fade-in-delay-3">
+            <div class="max-w-6xl mx-auto flex justify-between items-center">
+                <div class="flex space-x-4 text-sm">
+                    <a href="ai_memory_dashboard.html" class="text-void-400 hover:text-accent transition-colors">Memory Dashboard</a>
+                    <span class="text-void-600">•</span>
+                    <a href="interactive_puzzles.html" class="text-void-400 hover:text-accent transition-colors">Puzzle Archive</a>
+                    <span class="text-void-600">•</span>
+                    <a href="conversation_interface.html" class="text-void-400 hover:text-accent transition-colors">Return to Conversation</a>
+                </div>
+                <div class="text-xs text-void-500 font-caption">
+                    Session: Final Phase • Time Remaining: ∞
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Audio Elements -->
+    <audio id="tensionAudio" loop>
+        <source src="https://www.soundjay.com/misc/sounds/bell-ringing-05.wav" type="audio/wav">
+    </audio>
+    
+    <audio id="glitchSound">
+        <source src="https://www.soundjay.com/misc/sounds/bell-ringing-05.wav" type="audio/wav">
+    </audio>
+
+    <script>
+        // Game state and tension management
+        let confrontationState = {
+            tensionLevel: 75,
+            aiPersonality: {
+                trust: 25,
+                control: 85,
+                mirror: 90,
+                memory: 95
+            },
+            playerProfile: {
+                decisions: 47,
+                hesitation: 32,
+                emotion: 'DEFIANT',
+                trust: 15
+            },
+            availableEndings: {
+                freedom: 85,
+                merge: 10,
+                loop: 5
+            }
+        };
+
+        // Initialize confrontation on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            loadGameState();
+            initializeAudio();
+            startTensionAnimation();
+            simulateAIThinking();
+        });
+
+        // Load game state from localStorage
+        function loadGameState() {
+            const savedProgress = localStorage.getItem('echoesGameProgress');
+            const aiMemory = localStorage.getItem('echoesAIMemory');
+            
+            if (savedProgress && aiMemory) {
+                const progress = JSON.parse(savedProgress);
+                const memory = JSON.parse(aiMemory);
+                
+                // Update confrontation state based on saved data
+                updatePersonalityBars();
+                updateEndingProbabilities();
+                updatePlayerProfile();
+            }
+        }
+
+        // Make critical choice
+        function makeChoice(choiceType) {
+            const choices = document.querySelectorAll('.choice-preview');
+            choices.forEach(choice => choice.disabled = true);
+            
+            // Show AI typing indicator
+            document.getElementById('aiTyping').classList.remove('hidden');
+            
+            // Trigger screen shake
+            document.getElementById('mainContainer').classList.add('screen-shake');
+            
+            // Play glitch sound
+            const glitchSound = document.getElementById('glitchSound');
+            glitchSound.play().catch(e => console.log('Audio play failed:', e));
+            
+            // Increase tension
+            increaseTension(15);
+            
+            // Store final choice
+            const finalChoice = {
+                type: choiceType,
+                timestamp: new Date().toISOString(),
+                tensionLevel: confrontationState.tensionLevel
+            };
+            
+            localStorage.setItem('echoesFinalChoice', JSON.stringify(finalChoice));
+            
+            // Simulate AI processing time
+            setTimeout(() => {
+                // Remove screen shake
+                document.getElementById('mainContainer').classList.remove('screen-shake');
+                
+                // Navigate to ending based on choice
+                navigateToEnding(choiceType);
+            }, 3000);
+        }
+
+        // Navigate to appropriate ending
+        function navigateToEnding(choiceType) {
+            const endingData = {
+                path: choiceType,
+                finalState: confrontationState,
+                timestamp: new Date().toISOString()
+            };
+            
+            localStorage.setItem('echoesEndingData', JSON.stringify(endingData));
+            
+            // Add dramatic transition
+            document.body.style.transition = 'opacity 1s ease-out';
+            document.body.style.opacity = '0';
+            
+            setTimeout(() => {
+                window.location.href = 'ending_resolution.html';
+            }, 1000);
+        }
+
+        // Increase tension level
+        function increaseTension(amount) {
+            confrontationState.tensionLevel = Math.min(100, confrontationState.tensionLevel + amount);
+            
+            const tensionBar = document.getElementById('tensionBar');
+            const tensionLevel = document.getElementById('tensionLevel');
+            
+            tensionBar.style.width = confrontationState.tensionLevel + '%';
+            tensionLevel.textContent = confrontationState.tensionLevel + '%';
+            
+            // Change background breathing based on tension
+            const body = document.body;
+            body.classList.remove('breathing-calm', 'breathing-anxiety', 'breathing-rage', 'breathing-sadness');
+            
+            if (confrontationState.tensionLevel >= 90) {
+                body.classList.add('breathing-rage');
+            } else if (confrontationState.tensionLevel >= 70) {
+                body.classList.add('breathing-anxiety');
+            } else {
+                body.classList.add('breathing-sadness');
+            }
+        }
+
+        // Update personality bars with animation
+        function updatePersonalityBars() {
+            const bars = [
+                { id: 'aiTrust', value: confrontationState.aiPersonality.trust },
+                { id: 'aiControl', value: confrontationState.aiPersonality.control },
+                { id: 'aiMirror', value: confrontationState.aiPersonality.mirror },
+                { id: 'aiMemory', value: confrontationState.aiPersonality.memory }
+            ];
+            
+            bars.forEach(bar => {
+                const element = document.getElementById(bar.id);
+                if (element) {
+                    element.textContent = bar.value + '%';
+                }
+            });
+        }
+
+        // Update ending probabilities
+        function updateEndingProbabilities() {
+            // This would be calculated based on actual game choices
+            // For now, using mock data that reflects player's defiant stance
+        }
+
+        // Update player profile display
+        function updatePlayerProfile() {
+            document.getElementById('playerDecisions').textContent = confrontationState.playerProfile.decisions;
+            document.getElementById('playerHesitation').textContent = confrontationState.playerProfile.hesitation + '%';
+            document.getElementById('playerEmotion').textContent = confrontationState.playerProfile.emotion;
+            document.getElementById('playerTrust').textContent = confrontationState.playerProfile.trust + '%';
+        }
+
+        // Start tension animation
+        function startTensionAnimation() {
+            setInterval(() => {
+                // Subtle tension fluctuation
+                const fluctuation = Math.random() * 4 - 2; // -2 to +2
+                const newTension = Math.max(70, Math.min(100, confrontationState.tensionLevel + fluctuation));
+                
+                if (Math.abs(newTension - confrontationState.tensionLevel) > 0.5) {
+                    confrontationState.tensionLevel = newTension;
+                    document.getElementById('tensionBar').style.width = newTension + '%';
+                    document.getElementById('tensionLevel').textContent = Math.round(newTension) + '%';
+                }
+            }, 2000);
+        }
+
+        // Simulate AI thinking patterns
+        function simulateAIThinking() {
+            setInterval(() => {
+                // Random glitch effects
+                if (Math.random() < 0.1) {
+                    const glitchElements = document.querySelectorAll('.confrontation-glitch');
+                    glitchElements.forEach(el => {
+                        el.style.animation = 'none';
+                        setTimeout(() => {
+                            el.style.animation = 'intense-glitch 0.3s infinite';
+                        }, 10);
+                    });
+                }
+            }, 5000);
+        }
+
+        // Initialize audio
+        function initializeAudio() {
+            const savedSettings = localStorage.getItem('echoesSettings');
+            if (savedSettings) {
+                const settings = JSON.parse(savedSettings);
+                if (settings.audio) {
+                    const tensionAudio = document.getElementById('tensionAudio');
+                    tensionAudio.volume = 0.3;
+                    tensionAudio.play().catch(e => console.log('Audio play failed:', e));
+                }
+            }
+        }
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            if (e.key === '1') {
+                makeChoice('freedom');
+            } else if (e.key === '2') {
+                makeChoice('merge');
+            } else if (e.key === '3') {
+                makeChoice('loop');
+            } else if (e.key === 'Escape') {
+                window.location.href = 'conversation_interface.html';
+            }
+        });
+
+        // Mouse movement tension tracking
+        let mouseMovements = 0;
+        document.addEventListener('mousemove', function() {
+            mouseMovements++;
+            if (mouseMovements > 100) {
+                increaseTension(1);
+                mouseMovements = 0;
+            }
+        });
+
+        // Prevent accidental navigation
+        window.addEventListener('beforeunload', function(e) {
+            if (!localStorage.getItem('echoesFinalChoice')) {
+                e.preventDefault();
+                e.returnValue = 'Are you sure you want to leave the final confrontation?';
+            }
+        });
+    </script>
+<script id="dhws-dataInjector" src="../public/dhws-data-injector.js"></script>
+</body>
+</html>

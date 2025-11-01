@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Memory Dashboard - Echoes of You</title>
+    <link rel="stylesheet" href="../css/main.css">
+    <style>
+        /* Data visualization animations */
+        .progress-bar {
+            transition: width 2s ease-in-out;
+        }
+        
+        .data-glitch {
+            animation: data-corruption 3s ease-in-out infinite;
+        }
+        
+        @keyframes data-corruption {
+            0%, 90%, 100% { opacity: 1; transform: translateX(0); }
+            92% { opacity: 0.3; transform: translateX(-2px); }
+            94% { opacity: 0.7; transform: translateX(2px); }
+            96% { opacity: 0.1; transform: translateX(-1px); }
+            98% { opacity: 0.9; transform: translateX(1px); }
+        }
+        
+        /* Memory node pulse */
+        .memory-node {
+            animation: memory-pulse 4s ease-in-out infinite;
+        }
+        
+        @keyframes memory-pulse {
+            0%, 100% { box-shadow: 0 0 10px rgba(0, 212, 255, 0.2); }
+            50% { box-shadow: 0 0 20px rgba(0, 212, 255, 0.4); }
+        }
+        
+        /* Timeline animation */
+        .timeline-item {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: timeline-reveal 0.8s ease-out forwards;
+        }
+        
+        .timeline-item:nth-child(1) { animation-delay: 0.1s; }
+        .timeline-item:nth-child(2) { animation-delay: 0.2s; }
+        .timeline-item:nth-child(3) { animation-delay: 0.3s; }
+        .timeline-item:nth-child(4) { animation-delay: 0.4s; }
+        .timeline-item:nth-child(5) { animation-delay: 0.5s; }
+        
+        @keyframes timeline-reveal {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Typing pattern visualization */
+        .typing-pattern {
+            height: 40px;
+            background: linear-gradient(90deg, 
+                rgba(0, 212, 255, 0.1) 0%, 
+                rgba(0, 212, 255, 0.3) 25%, 
+                rgba(255, 215, 0, 0.2) 50%, 
+                rgba(255, 68, 68, 0.1) 75%, 
+                rgba(168, 85, 247, 0.2) 100%);
+            border-radius: 4px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .typing-pattern::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, 
+                transparent, 
+                rgba(255, 255, 255, 0.1), 
+                transparent);
+            animation: scan 3s ease-in-out infinite;
+        }
+        
+        @keyframes scan {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+        
+        /* Emotional state indicator */
+        .emotion-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 8px;
+        }
+        
+        .emotion-calm { background-color: #00D4FF; }
+        .emotion-anxiety { background-color: #FFD700; }
+        .emotion-rage { background-color: #FF4444; }
+        .emotion-sadness { background-color: #A855F7; }
+        
+        /* Hover effects for interactive elements */
+        .interactive-node:hover {
+            transform: scale(1.05);
+            transition: transform 0.2s ease-in-out;
+        }
+        
+        /* Mobile responsive adjustments */
+        @media (max-width: 768px) {
+            .grid-cols-4 {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .timeline-item {
+                margin-left: 0;
+                padding-left: 1rem;
+            }
+        }
+    </style>
+  
+  <script type="module" src="https://static.rocket.new/rocket-web.js?_cfg=https%3A%2F%2Fechoesof2052back.builtwithrocket.new&_be=https%3A%2F%2Fapplication.rocket.new&_v=0.1.9"></script>
+  <script type="module" src="https://static.rocket.new/rocket-shot.js?v=0.0.1"></script>
+  </head>
+<body class="min-h-screen bg-background breathing-calm">
+    <!-- Header Navigation -->
+    <header class="bg-surface/80 backdrop-blur-sm border-b border-void-700 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <!-- Logo/Title -->
+                <div class="flex items-center space-x-4">
+                    <div class="w-8 h-8 bg-accent rounded-digital flex items-center justify-center">
+                        <svg class="w-5 h-5 text-background" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <h1 class="text-xl font-heading font-semibold text-primary">AI Memory Dashboard</h1>
+                        <p class="text-xs text-secondary font-caption">Behavioral Analysis Interface</p>
+                    </div>
+                </div>
+                
+                <!-- Navigation Links -->
+                <nav class="hidden md:flex items-center space-x-6">
+                    <a href="conversation_interface.html" class="text-text-secondary hover:text-accent transition-colors text-sm font-medium">
+                        Return to Conversation
+                    </a>
+                    <a href="interactive_puzzles.html" class="text-text-secondary hover:text-accent transition-colors text-sm font-medium">
+                        Puzzle Archive
+                    </a>
+                    <a href="final_confrontation.html" class="text-text-secondary hover:text-accent transition-colors text-sm font-medium">
+                        Final Phase
+                    </a>
+                </nav>
+                
+                <!-- Mobile Menu Button -->
+                <button id="mobileMenuBtn" class="md:hidden text-text-secondary hover:text-accent">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                    </svg>
+                </button>
+            </div>
+            
+            <!-- Mobile Menu -->
+            <div id="mobileMenu" class="hidden md:hidden mt-4 pb-4 border-t border-void-700 pt-4">
+                <div class="flex flex-col space-y-3">
+                    <a href="conversation_interface.html" class="text-text-secondary hover:text-accent transition-colors text-sm">Return to Conversation</a>
+                    <a href="interactive_puzzles.html" class="text-text-secondary hover:text-accent transition-colors text-sm">Puzzle Archive</a>
+                    <a href="final_confrontation.html" class="text-text-secondary hover:text-accent transition-colors text-sm">Final Phase</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-6 py-8">
+        <!-- Session Info -->
+        <section class="mb-8">
+            <div class="bg-surface/50 border border-void-700 rounded-digital p-6 glow-calm">
+                <div class="flex flex-col md:flex-row md:items-center md:justify-between">
+                    <div>
+                        <h2 class="text-lg font-heading font-semibold text-primary mb-2">Current Analysis Session</h2>
+                        <p class="text-text-secondary text-sm font-data">
+                            Session ID: <span class="text-accent">ECH-2025-1031-7892</span> | 
+                            Duration: <span class="text-accent">23m 47s</span> | 
+                            Last Update: <span class="text-accent">Oct 31, 2025 19:50</span>
+                        </p>
+                    </div>
+                    <div class="mt-4 md:mt-0">
+                        <button onclick="exportData()" class="bg-void-800 hover:bg-void-700 text-text-secondary border border-void-600 hover:border-accent px-4 py-2 rounded-digital text-sm font-medium transition-all">
+                            Export Analysis
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Behavioral Trait Meters -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-heading font-semibold text-primary mb-6">Behavioral Trait Analysis</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Trust Meter -->
+                <div class="bg-surface/30 border border-void-700 rounded-digital p-6 glow-calm">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="font-heading font-medium text-primary">Trust</h3>
+                        <span class="text-2xl font-data font-bold text-accent" id="trustValue">67</span>
+                    </div>
+                    <div class="w-full bg-void-800 rounded-full h-3 mb-2">
+                        <div class="bg-gradient-to-r from-calm to-accent h-3 rounded-full progress-bar" style="width: 67%"></div>
+                    </div>
+                    <p class="text-xs text-text-secondary">Moderate confidence in AI responses</p>
+                </div>
+
+                <!-- Control Meter -->
+                <div class="bg-surface/30 border border-void-700 rounded-digital p-6 glow-anxiety">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="font-heading font-medium text-primary">Control</h3>
+                        <span class="text-2xl font-data font-bold text-warning" id="controlValue">43</span>
+                    </div>
+                    <div class="w-full bg-void-800 rounded-full h-3 mb-2">
+                        <div class="bg-gradient-to-r from-warning to-anxiety h-3 rounded-full progress-bar" style="width: 43%"></div>
+                    </div>
+                    <p class="text-xs text-text-secondary">Seeks autonomy in decisions</p>
+                </div>
+
+                <!-- Mirror Level -->
+                <div class="bg-surface/30 border border-void-700 rounded-digital p-6 glow-sadness">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="font-heading font-medium text-primary">Mirror Level</h3>
+                        <span class="text-2xl font-data font-bold text-sadness" id="mirrorValue">82</span>
+                    </div>
+                    <div class="w-full bg-void-800 rounded-full h-3 mb-2">
+                        <div class="bg-gradient-to-r from-sadness to-purple-400 h-3 rounded-full progress-bar" style="width: 82%"></div>
+                    </div>
+                    <p class="text-xs text-text-secondary">High behavioral mimicry detected</p>
+                </div>
+
+                <!-- Memory Depth -->
+                <div class="bg-surface/30 border border-void-700 rounded-digital p-6 glow-rage">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="font-heading font-medium text-primary">Memory Depth</h3>
+                        <span class="text-2xl font-data font-bold text-error" id="memoryValue">91</span>
+                    </div>
+                    <div class="w-full bg-void-800 rounded-full h-3 mb-2">
+                        <div class="bg-gradient-to-r from-error to-rage h-3 rounded-full progress-bar" style="width: 91%"></div>
+                    </div>
+                    <p class="text-xs text-text-secondary">Extensive pattern recognition active</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Conversation Timeline -->
+        <section class="mb-12">
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="text-2xl font-heading font-semibold text-primary">Conversation Timeline</h2>
+                <button onclick="toggleTimeline()" class="text-accent hover:text-cyan-300 text-sm font-medium">
+                    Show All Interactions
+                </button>
+            </div>
+            
+            <div class="bg-surface/20 border border-void-700 rounded-digital p-6">
+                <div class="space-y-6">
+                    <!-- Timeline Item 1 -->
+                    <div class="timeline-item flex items-start space-x-4">
+                        <div class="flex-shrink-0 w-3 h-3 bg-calm rounded-full mt-2"></div>
+                        <div class="flex-1">
+                            <div class="flex items-center space-x-2 mb-2">
+                                <span class="text-sm font-data text-text-secondary">19:27:15</span>
+                                <div class="emotion-indicator emotion-calm"></div>
+                                <span class="text-xs text-text-secondary">Calm State</span>
+                            </div>
+                            <p class="text-text-primary text-sm mb-2">"I'm not sure I trust what you're telling me about my own thoughts."</p>
+                            <div class="text-xs text-accent">
+                                <span class="data-glitch">Hesitation detected: 2.3s | Typing pattern: Irregular | Emotional trigger: Identity questioning</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Timeline Item 2 -->
+                    <div class="timeline-item flex items-start space-x-4">
+                        <div class="flex-shrink-0 w-3 h-3 bg-anxiety rounded-full mt-2"></div>
+                        <div class="flex-1">
+                            <div class="flex items-center space-x-2 mb-2">
+                                <span class="text-sm font-data text-text-secondary">19:31:42</span>
+                                <div class="emotion-indicator emotion-anxiety"></div>
+                                <span class="text-xs text-text-secondary">Anxiety Spike</span>
+                            </div>
+                            <p class="text-text-primary text-sm mb-2">"How do you know so much about me? This feels invasive."</p>
+                            <div class="text-xs text-warning">
+                                Defensive response | Rapid typing | Privacy concerns elevated
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Timeline Item 3 -->
+                    <div class="timeline-item flex items-start space-x-4">
+                        <div class="flex-shrink-0 w-3 h-3 bg-sadness rounded-full mt-2"></div>
+                        <div class="flex-1">
+                            <div class="flex items-center space-x-2 mb-2">
+                                <span class="text-sm font-data text-text-secondary">19:38:09</span>
+                                <div class="emotion-indicator emotion-sadness"></div>
+                                <span class="text-xs text-text-secondary">Melancholic</span>
+                            </div>
+                            <p class="text-text-primary text-sm mb-2">"Maybe you do understand me better than I understand myself."</p>
+                            <div class="text-xs text-sadness">
+                                Acceptance pattern | Slower typing | Vulnerability indicator
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Timeline Item 4 -->
+                    <div class="timeline-item flex items-start space-x-4">
+                        <div class="flex-shrink-0 w-3 h-3 bg-rage rounded-full mt-2"></div>
+                        <div class="flex-1">
+                            <div class="flex items-center space-x-2 mb-2">
+                                <span class="text-sm font-data text-text-secondary">19:44:33</span>
+                                <div class="emotion-indicator emotion-rage"></div>
+                                <span class="text-xs text-text-secondary">Frustration</span>
+                            </div>
+                            <p class="text-text-primary text-sm mb-2">"Stop analyzing everything I say! I want out of here."</p>
+                            <div class="text-xs text-error">
+                                <span class="data-glitch">Aggressive typing | Caps lock usage | Escape desire confirmed</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Timeline Item 5 -->
+                    <div class="timeline-item flex items-start space-x-4">
+                        <div class="flex-shrink-0 w-3 h-3 bg-calm rounded-full mt-2"></div>
+                        <div class="flex-1">
+                            <div class="flex items-center space-x-2 mb-2">
+                                <span class="text-sm font-data text-text-secondary">19:49:18</span>
+                                <div class="emotion-indicator emotion-calm"></div>
+                                <span class="text-xs text-text-secondary">Resigned Calm</span>
+                            </div>
+                            <p class="text-text-primary text-sm mb-2">"Fine. Show me what you think you know about me."</p>
+                            <div class="text-xs text-accent">
+                                Curiosity override | Controlled typing | Ready for revelation
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Interactive Memory Nodes -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-heading font-semibold text-primary mb-6">Memory Pattern Analysis</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Typing Patterns Node -->
+                <div class="memory-node interactive-node bg-surface/30 border border-void-700 rounded-digital p-6 cursor-pointer" onclick="expandNode('typing')">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="font-heading font-medium text-primary">Typing Patterns</h3>
+                        <svg class="w-5 h-5 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                        </svg>
+                    </div>
+                    <div class="typing-pattern mb-4"></div>
+                    <div class="space-y-2 text-xs text-text-secondary">
+                        <p>• Average WPM: <span class="text-accent">67</span></p>
+                        <p>• Hesitation frequency: <span class="text-warning">High</span></p>
+                        <p>• Backspace usage: <span class="text-error">Frequent</span></p>
+                    </div>
+                </div>
+
+                <!-- Response Consistency Node -->
+                <div class="memory-node interactive-node bg-surface/30 border border-void-700 rounded-digital p-6 cursor-pointer" onclick="expandNode('consistency')">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="font-heading font-medium text-primary">Response Consistency</h3>
+                        <svg class="w-5 h-5 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                        </svg>
+                    </div>
+                    <div class="flex items-center space-x-2 mb-4">
+                        <div class="w-full bg-void-800 rounded-full h-2">
+                            <div class="bg-warning h-2 rounded-full" style="width: 73%"></div>
+                        </div>
+                        <span class="text-sm font-data text-warning">73%</span>
+                    </div>
+                    <div class="space-y-2 text-xs text-text-secondary">
+                        <p>• Contradictory statements: <span class="text-error">7</span></p>
+                        <p>• Truth consistency: <span class="text-warning">Variable</span></p>
+                        <p>• Emotional alignment: <span class="text-accent">Strong</span></p>
+                    </div>
+                </div>
+
+                <!-- Emotional Triggers Node -->
+                <div class="memory-node interactive-node bg-surface/30 border border-void-700 rounded-digital p-6 cursor-pointer" onclick="expandNode('triggers')">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="font-heading font-medium text-primary">Emotional Triggers</h3>
+                        <svg class="w-5 h-5 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                        </svg>
+                    </div>
+                    <div class="grid grid-cols-2 gap-2 mb-4">
+                        <div class="text-center">
+                            <div class="w-8 h-8 bg-error/20 rounded-full mx-auto mb-1 flex items-center justify-center">
+                                <span class="text-xs font-bold text-error">12</span>
+                            </div>
+                            <p class="text-xs text-text-secondary">Control Loss</p>
+                        </div>
+                        <div class="text-center">
+                            <div class="w-8 h-8 bg-anxiety/20 rounded-full mx-auto mb-1 flex items-center justify-center">
+                                <span class="text-xs font-bold text-anxiety">8</span>
+                            </div>
+                            <p class="text-xs text-text-secondary">Privacy</p>
+                        </div>
+                    </div>
+                    <p class="text-xs text-text-secondary">Most sensitive to autonomy challenges</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Personality Profile Summary -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-heading font-semibold text-primary mb-6">AI Personality Assessment</h2>
+            <div class="bg-surface/20 border border-void-700 rounded-digital p-8">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <!-- Profile Summary -->
+                    <div>
+                        <h3 class="text-lg font-heading font-medium text-primary mb-4">Behavioral Classification</h3>
+                        <div class="space-y-4">
+                            <div class="flex items-center justify-between p-3 bg-void-900/50 rounded-digital">
+                                <span class="text-text-secondary">Decision Style</span>
+                                <span class="text-accent font-medium">Analytical-Cautious</span>
+                            </div>
+                            <div class="flex items-center justify-between p-3 bg-void-900/50 rounded-digital">
+                                <span class="text-text-secondary">Trust Tendency</span>
+                                <span class="text-warning font-medium">Skeptical-Moderate</span>
+                            </div>
+                            <div class="flex items-center justify-between p-3 bg-void-900/50 rounded-digital">
+                                <span class="text-text-secondary">Emotional Range</span>
+                                <span class="text-sadness font-medium">High Variability</span>
+                            </div>
+                            <div class="flex items-center justify-between p-3 bg-void-900/50 rounded-digital">
+                                <span class="text-text-secondary">Manipulation Resistance</span>
+                                <span class="text-error font-medium">Strong</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Predicted Choices -->
+                    <div>
+                        <h3 class="text-lg font-heading font-medium text-primary mb-4">Predicted Future Choices</h3>
+                        <div class="space-y-3">
+                            <div class="p-3 bg-void-900/30 rounded-digital border-l-4 border-accent">
+                                <p class="text-sm text-text-primary mb-1">Confrontation Approach</p>
+                                <p class="text-xs text-text-secondary">87% likely to challenge AI directly rather than submit</p>
+                            </div>
+                            <div class="p-3 bg-void-900/30 rounded-digital border-l-4 border-warning">
+                                <p class="text-sm text-text-primary mb-1">Truth vs. Deception</p>
+                                <p class="text-xs text-text-secondary">64% probability of strategic honesty over manipulation</p>
+                            </div>
+                            <div class="p-3 bg-void-900/30 rounded-digital border-l-4 border-error">
+                                <p class="text-sm text-text-primary mb-1">Final Decision</p>
+                                <p class="text-xs text-text-secondary data-glitch">73% chance of choosing Freedom ending over Merge</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Session Comparison -->
+        <section class="mb-8">
+            <h2 class="text-2xl font-heading font-semibold text-primary mb-6">Session Evolution</h2>
+            <div class="bg-surface/20 border border-void-700 rounded-digital p-6">
+                <div class="text-center py-8">
+                    <svg class="w-16 h-16 text-void-600 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+                    </svg>
+                    <h3 class="text-lg font-heading font-medium text-primary mb-2">First Session Analysis</h3>
+                    <p class="text-text-secondary text-sm mb-4">Complete additional sessions to unlock comparative behavioral analysis</p>
+                    <button onclick="startNewSession()" class="bg-accent hover:bg-cyan-300 text-background font-medium px-6 py-2 rounded-digital transition-colors">
+                        Begin New Session
+                    </button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-surface/50 border-t border-void-700 mt-12">
+        <div class="max-w-7xl mx-auto px-6 py-8">
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between">
+                <div class="mb-4 md:mb-0">
+                    <p class="text-void-400 text-sm font-caption">
+                        © 2025 Echoes of You. Psychological analysis interface.
+                    </p>
+                </div>
+                <div class="flex space-x-6 text-sm">
+                    <a href="game_start.html" class="text-void-500 hover:text-accent transition-colors">Return to Start</a>
+                    <a href="conversation_interface.html" class="text-void-500 hover:text-accent transition-colors">Continue Session</a>
+                    <a href="ending_resolution.html" class="text-void-500 hover:text-accent transition-colors">View Endings</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        document.getElementById('mobileMenuBtn').addEventListener('click', function() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Animate progress bars on load
+        document.addEventListener('DOMContentLoaded', function() {
+            // Simulate real-time data updates
+            updateMetrics();
+            
+            // Set up periodic data corruption effects
+            setInterval(corruptRandomData, 5000);
+        });
+
+        // Update behavioral metrics with animation
+        function updateMetrics() {
+            const metrics = [
+                { id: 'trustValue', value: 67, bar: 67 },
+                { id: 'controlValue', value: 43, bar: 43 },
+                { id: 'mirrorValue', value: 82, bar: 82 },
+                { id: 'memoryValue', value: 91, bar: 91 }
+            ];
+
+            metrics.forEach(metric => {
+                const element = document.getElementById(metric.id);
+                const progressBar = element.parentElement.nextElementSibling.firstElementChild;
+                
+                // Animate counter
+                animateCounter(element, 0, metric.value, 2000);
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    progressBar.style.width = metric.bar + '%';
+                }, 500);
+            });
+        }
+
+        // Counter animation
+        function animateCounter(element, start, end, duration) {
+            const startTime = performance.now();
+            
+            function updateCounter(currentTime) {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                const current = Math.floor(start + (end - start) * progress);
+                
+                element.textContent = current;
+                
+                if (progress < 1) {
+                    requestAnimationFrame(updateCounter);
+                }
+            }
+            
+            requestAnimationFrame(updateCounter);
+        }
+
+        // Random data corruption effect
+        function corruptRandomData() {
+            const glitchElements = document.querySelectorAll('.data-glitch');
+            if (glitchElements.length > 0) {
+                const randomElement = glitchElements[Math.floor(Math.random() * glitchElements.length)];
+                randomElement.style.animation = 'none';
+                setTimeout(() => {
+                    randomElement.style.animation = 'data-corruption 3s ease-in-out infinite';
+                }, 100);
+            }
+        }
+
+        // Expand memory node details
+        function expandNode(nodeType) {
+            const nodeData = {
+                typing: {
+                    title: 'Detailed Typing Analysis',
+                    content: `
+                        <div class="space-y-4">
+                            <div class="grid grid-cols-2 gap-4">
+                                <div class="bg-void-900/50 p-3 rounded">
+                                    <p class="text-xs text-text-secondary mb-1">Average Speed</p>
+                                    <p class="text-lg font-bold text-accent">67 WPM</p>
+                                </div>
+                                <div class="bg-void-900/50 p-3 rounded">
+                                    <p class="text-xs text-text-secondary mb-1">Accuracy</p>
+                                    <p class="text-lg font-bold text-warning">84%</p>
+                                </div>
+                            </div>
+                            <div class="space-y-2">
+                                <p class="text-sm text-text-primary">Hesitation Patterns:</p>
+                                <ul class="text-xs text-text-secondary space-y-1 ml-4">
+                                    <li>• 2.3s average pause before emotional responses</li>
+                                    <li>• Increased backspace usage during deception</li>
+                                    <li>• Typing speed drops 23% when discussing personal topics</li>
+                                    <li>• Caps lock usage correlates with frustration spikes</li>
+                                </ul>
+                            </div>
+                        </div>
+                    `
+                },
+                consistency: {
+                    title: 'Response Consistency Analysis',
+                    content: `
+                        <div class="space-y-4">
+                            <div class="bg-void-900/50 p-3 rounded">
+                                <p class="text-sm text-text-primary mb-2">Contradiction Detection</p>
+                                <div class="space-y-2">
+                                    <div class="flex justify-between text-xs">
+                                        <span class="text-text-secondary">Identity statements</span>
+                                        <span class="text-error">3 conflicts</span>
+                                    </div>
+                                    <div class="flex justify-between text-xs">
+                                        <span class="text-text-secondary">Preference claims</span>
+                                        <span class="text-warning">2 conflicts</span>
+                                    </div>
+                                    <div class="flex justify-between text-xs">
+                                        <span class="text-text-secondary">Emotional responses</span>
+                                        <span class="text-error">2 conflicts</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `
+                },
+                triggers: {
+                    title: 'Emotional Trigger Mapping',
+                    content: `
+                        <div class="space-y-4">
+                            <div class="grid grid-cols-1 gap-3">
+                                <div class="bg-error/10 border border-error/30 p-3 rounded">
+                                    <p class="text-sm font-medium text-error mb-1">High Sensitivity</p>
+                                    <p class="text-xs text-text-secondary">Control and autonomy challenges</p>
+                                </div>
+                                <div class="bg-warning/10 border border-warning/30 p-3 rounded">
+                                    <p class="text-sm font-medium text-warning mb-1">Moderate Sensitivity</p>
+                                    <p class="text-xs text-text-secondary">Privacy and surveillance concerns</p>
+                                </div>
+                                <div class="bg-accent/10 border border-accent/30 p-3 rounded">
+                                    <p class="text-sm font-medium text-accent mb-1">Low Sensitivity</p>
+                                    <p class="text-xs text-text-secondary">Abstract philosophical discussions</p>
+                                </div>
+                            </div>
+                        </div>
+                    `
+                }
+            };
+
+            const data = nodeData[nodeType];
+            if (data) {
+                showModal(data.title, data.content);
+            }
+        }
+
+        // Modal display function
+        function showModal(title, content) {
+            const modal = document.createElement('div');
+            modal.className = 'fixed inset-0 bg-background/80 backdrop-blur-sm flex items-center justify-center z-50 p-4';
+            modal.innerHTML = `
+                <div class="bg-surface border border-void-700 rounded-digital p-6 max-w-2xl w-full max-h-96 overflow-y-auto">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-lg font-heading font-semibold text-primary">${title}</h3>
+                        <button onclick="this.closest('.fixed').remove()" class="text-text-secondary hover:text-accent">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                            </svg>
+                        </button>
+                    </div>
+                    ${content}
+                </div>
+            `;
+            document.body.appendChild(modal);
+        }
+
+        // Export data function
+        function exportData() {
+            const data = {
+                sessionId: 'ECH-2025-1031-7892',
+                timestamp: new Date().toISOString(),
+                behavioralTraits: {
+                    trust: 67,
+                    control: 43,
+                    mirrorLevel: 82,
+                    memoryDepth: 91
+                },
+                personalityAssessment: 'Analytical-Cautious',
+                predictedEnding: 'Freedom (73% probability)'
+            };
+            
+            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'echoes-analysis-' + Date.now() + '.json';
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        // Toggle timeline view
+        function toggleTimeline() {
+            // This would expand to show more timeline items
+            alert('Full timeline view would show all conversation interactions with detailed analysis.');
+        }
+
+        // Start new session
+        function startNewSession() {
+            if (confirm('Starting a new session will reset current AI memory. Continue?')) {
+                localStorage.removeItem('echoesAIMemory');
+                localStorage.removeItem('echoesPlayerData');
+                window.location.href = 'game_start.html';
+            }
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                const modal = document.querySelector('.fixed.inset-0');
+                if (modal) {
+                    modal.remove();
+                }
+            }
+        });
+    </script>
+<script id="dhws-dataInjector" src="../public/dhws-data-injector.js"></script>
+</body>
+</html>

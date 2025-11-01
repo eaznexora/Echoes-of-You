@@ -1,0 +1,1039 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Puzzles - Echoes of You</title>
+    <link rel="stylesheet" href="../css/main.css">
+    <style>
+        /* Puzzle-specific animations */
+        .puzzle-glow {
+            animation: puzzle-pulse 2s ease-in-out infinite alternate;
+        }
+        
+        @keyframes puzzle-pulse {
+            0% { box-shadow: 0 0 20px rgba(0, 212, 255, 0.1); }
+            100% { box-shadow: 0 0 30px rgba(0, 212, 255, 0.3); }
+        }
+        
+        /* Truth Lock validation effects */
+        .truth-correct {
+            animation: truth-success 0.5s ease-in-out;
+            background: linear-gradient(45deg, rgba(0, 255, 136, 0.1), rgba(0, 212, 255, 0.1));
+        }
+        
+        .truth-incorrect {
+            animation: truth-error 0.5s ease-in-out;
+            background: linear-gradient(45deg, rgba(255, 68, 68, 0.1), rgba(255, 215, 0, 0.1));
+        }
+        
+        @keyframes truth-success {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); }
+        }
+        
+        @keyframes truth-error {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+        
+        /* Emotion Match color transitions */
+        .emotion-selector {
+            transition: all 0.3s ease-in-out;
+            cursor: pointer;
+        }
+        
+        .emotion-selector:hover {
+            transform: scale(1.1);
+            filter: brightness(1.2);
+        }
+        
+        .emotion-selected {
+            transform: scale(1.15);
+            box-shadow: 0 0 20px currentColor;
+        }
+        
+        /* Mirror Game prediction effects */
+        .prediction-match {
+            animation: prediction-glow 1s ease-in-out;
+        }
+        
+        @keyframes prediction-glow {
+            0%, 100% { box-shadow: 0 0 10px rgba(168, 85, 247, 0.3); }
+            50% { box-shadow: 0 0 25px rgba(168, 85, 247, 0.6); }
+        }
+        
+        /* Code Pulse syntax highlighting */
+        .syntax-keyword { color: #00D4FF; }
+        .syntax-string { color: #00FF88; }
+        .syntax-comment { color: #A0A0A0; }
+        .syntax-error { color: #FF4444; background: rgba(255, 68, 68, 0.1); }
+        
+        /* Progress indicators */
+        .progress-bar {
+            transition: width 0.5s ease-in-out;
+        }
+        
+        /* Glitch intensification */
+        .glitch-intense {
+            animation: intense-glitch 0.3s ease-in-out infinite;
+        }
+        
+        @keyframes intense-glitch {
+            0%, 100% { transform: translateX(0) skew(0deg); filter: hue-rotate(0deg); }
+            25% { transform: translateX(-2px) skew(-1deg); filter: hue-rotate(90deg); }
+            75% { transform: translateX(2px) skew(1deg); filter: hue-rotate(-90deg); }
+        }
+        
+        /* Fade transitions */
+        .fade-in-up {
+            animation: fadeInUp 0.6s ease-out;
+        }
+        
+        @keyframes fadeInUp {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Typing pattern visualization */
+        .typing-pattern {
+            height: 4px;
+            background: linear-gradient(90deg, transparent, var(--color-accent), transparent);
+            animation: typing-flow 2s ease-in-out infinite;
+        }
+        
+        @keyframes typing-flow {
+            0%, 100% { transform: translateX(-100%); }
+            50% { transform: translateX(100%); }
+        }
+    </style>
+  
+  <script type="module" src="https://static.rocket.new/rocket-web.js?_cfg=https%3A%2F%2Fechoesof2052back.builtwithrocket.new&_be=https%3A%2F%2Fapplication.rocket.new&_v=0.1.9"></script>
+  <script type="module" src="https://static.rocket.new/rocket-shot.js?v=0.0.1"></script>
+  </head>
+<body class="min-h-screen bg-background breathing-calm">
+    <!-- Header Navigation -->
+    <header class="bg-surface/80 backdrop-blur-sm border-b border-void-700 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <!-- Logo -->
+                <div class="flex items-center space-x-3">
+                    <div class="w-8 h-8 bg-accent rounded-digital flex items-center justify-center">
+                        <svg class="w-5 h-5 text-background" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 2L2 7v10c0 5.55 3.84 9.739 9 11 5.16-1.261 9-5.45 9-11V7l-10-5z"/>
+                        </svg>
+                    </div>
+                    <h1 class="text-xl font-heading font-semibold text-primary">Echoes of You</h1>
+                </div>
+                
+                <!-- Navigation -->
+                <nav class="hidden md:flex items-center space-x-6">
+                    <a href="game_start.html" class="text-text-secondary hover:text-accent transition-colors font-caption text-sm">Start</a>
+                    <a href="conversation_interface.html" class="text-text-secondary hover:text-accent transition-colors font-caption text-sm">Conversation</a>
+                    <a href="interactive_puzzles.html" class="text-accent font-caption text-sm">Puzzles</a>
+                    <a href="ai_memory_dashboard.html" class="text-text-secondary hover:text-accent transition-colors font-caption text-sm">Memory</a>
+                    <a href="final_confrontation.html" class="text-text-secondary hover:text-accent transition-colors font-caption text-sm">Confrontation</a>
+                </nav>
+                
+                <!-- Mobile Menu Button -->
+                <button id="mobileMenuBtn" class="md:hidden text-text-secondary hover:text-accent transition-colors">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                    </svg>
+                </button>
+            </div>
+            
+            <!-- Mobile Menu -->
+            <div id="mobileMenu" class="hidden md:hidden mt-4 pb-4 border-t border-void-700 pt-4">
+                <div class="flex flex-col space-y-3">
+                    <a href="game_start.html" class="text-text-secondary hover:text-accent transition-colors font-caption text-sm">Start Game</a>
+                    <a href="conversation_interface.html" class="text-text-secondary hover:text-accent transition-colors font-caption text-sm">Conversation</a>
+                    <a href="interactive_puzzles.html" class="text-accent font-caption text-sm">Interactive Puzzles</a>
+                    <a href="ai_memory_dashboard.html" class="text-text-secondary hover:text-accent transition-colors font-caption text-sm">AI Memory</a>
+                    <a href="final_confrontation.html" class="text-text-secondary hover:text-accent transition-colors font-caption text-sm">Final Confrontation</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-6 py-8">
+        <!-- Page Header -->
+        <section class="text-center mb-12 fade-in-up">
+            <h1 class="glitch-text text-4xl md:text-6xl font-heading font-bold mb-4" data-text="INTERACTIVE PUZZLES">
+                INTERACTIVE PUZZLES
+            </h1>
+            <div class="w-32 h-0.5 bg-gradient-to-r from-transparent via-accent to-transparent mx-auto mb-6"></div>
+            <p class="text-text-secondary text-lg font-caption max-w-2xl mx-auto">
+                Prove your humanity through four distinct challenges. Each puzzle tests different aspects of consciousness and authenticity.
+            </p>
+        </section>
+
+        <!-- Puzzle Selection Grid -->
+        <section class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+            <!-- Truth Lock Puzzle -->
+            <div class="bg-surface/50 backdrop-blur-sm border border-void-700 rounded-digital p-8 glow-calm puzzle-glow fade-in-up">
+                <div class="flex items-center justify-between mb-6">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-12 h-12 bg-accent/20 rounded-digital flex items-center justify-center">
+                            <svg class="w-6 h-6 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-heading font-semibold text-primary">Truth Lock</h3>
+                            <p class="text-text-secondary text-sm font-caption">Honesty Validation System</p>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <div class="text-2xl font-data font-bold text-accent">85%</div>
+                        <div class="text-xs text-text-secondary font-caption">Accuracy Rate</div>
+                    </div>
+                </div>
+                
+                <div class="space-y-4 mb-6">
+                    <p class="text-text-secondary text-sm leading-relaxed">
+                        Answer personal questions with complete honesty. The AI analyzes your typing patterns, response time, and consistency with previous answers to validate authenticity.
+                    </p>
+                    
+                    <!-- Sample Question Preview -->
+                    <div class="bg-void-900/50 border border-void-600 rounded-digital p-4">
+                        <p class="text-primary text-sm mb-3 font-medium">Sample Question:</p>
+                        <p class="text-text-secondary text-sm italic">"What is your greatest fear, and when did you first realize it?"</p>
+                        
+                        <!-- Typing Pattern Indicator -->
+                        <div class="mt-3 h-1 bg-void-700 rounded-full overflow-hidden">
+                            <div class="typing-pattern w-full"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <button onclick="startTruthLock()" class="w-full bg-accent hover:bg-cyan-300 text-background font-heading font-semibold py-3 px-6 rounded-digital transition-all duration-300 transform hover:scale-105">
+                    Begin Truth Lock
+                </button>
+            </div>
+
+            <!-- Emotion Match Puzzle -->
+            <div class="bg-surface/50 backdrop-blur-sm border border-void-700 rounded-digital p-8 glow-anxiety puzzle-glow fade-in-up">
+                <div class="flex items-center justify-between mb-6">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-12 h-12 bg-warning/20 rounded-digital flex items-center justify-center">
+                            <svg class="w-6 h-6 text-warning" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zM21 5a2 2 0 00-2-2h-4a2 2 0 00-2 2v12a4 4 0 004 4h4a2 2 0 002-2V5z"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-heading font-semibold text-primary">Emotion Match</h3>
+                            <p class="text-text-secondary text-sm font-caption">Mood-Color Alignment</p>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <div class="text-2xl font-data font-bold text-warning">72%</div>
+                        <div class="text-xs text-text-secondary font-caption">Match Rate</div>
+                    </div>
+                </div>
+                
+                <div class="space-y-4 mb-6">
+                    <p class="text-text-secondary text-sm leading-relaxed">
+                        Match emotional scenarios with corresponding colors. Your intuitive color associations reveal subconscious emotional patterns.
+                    </p>
+                    
+                    <!-- Color Selector Preview -->
+                    <div class="bg-void-900/50 border border-void-600 rounded-digital p-4">
+                        <p class="text-primary text-sm mb-3 font-medium">Scenario: "Standing alone in an empty room"</p>
+                        <div class="flex space-x-3">
+                            <div class="emotion-selector w-8 h-8 rounded-full bg-calm cursor-pointer" data-emotion="calm"></div>
+                            <div class="emotion-selector w-8 h-8 rounded-full bg-anxiety cursor-pointer" data-emotion="anxiety"></div>
+                            <div class="emotion-selector w-8 h-8 rounded-full bg-rage cursor-pointer" data-emotion="rage"></div>
+                            <div class="emotion-selector w-8 h-8 rounded-full bg-sadness cursor-pointer" data-emotion="sadness"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <button onclick="startEmotionMatch()" class="w-full bg-warning hover:bg-yellow-300 text-background font-heading font-semibold py-3 px-6 rounded-digital transition-all duration-300 transform hover:scale-105">
+                    Begin Emotion Match
+                </button>
+            </div>
+
+            <!-- Mirror Game Puzzle -->
+            <div class="bg-surface/50 backdrop-blur-sm border border-void-700 rounded-digital p-8 glow-sadness puzzle-glow fade-in-up">
+                <div class="flex items-center justify-between mb-6">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-12 h-12 bg-sadness/20 rounded-digital flex items-center justify-center">
+                            <svg class="w-6 h-6 text-sadness" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-heading font-semibold text-primary">Mirror Game</h3>
+                            <p class="text-text-secondary text-sm font-caption">Predictive Choice System</p>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <div class="text-2xl font-data font-bold text-sadness">91%</div>
+                        <div class="text-xs text-text-secondary font-caption">AI Accuracy</div>
+                    </div>
+                </div>
+                
+                <div class="space-y-4 mb-6">
+                    <p class="text-text-secondary text-sm leading-relaxed">
+                        The AI predicts your choices before you make them. Act unpredictably to prove your free will and break the pattern recognition.
+                    </p>
+                    
+                    <!-- Prediction Preview -->
+                    <div class="bg-void-900/50 border border-void-600 rounded-digital p-4">
+                        <p class="text-primary text-sm mb-3 font-medium">AI Prediction:</p>
+                        <div class="flex space-x-3">
+                            <div class="bg-sadness/20 border border-sadness/50 rounded px-3 py-1 text-xs text-sadness font-caption">Choice A: 78%</div>
+                            <div class="bg-void-700 border border-void-600 rounded px-3 py-1 text-xs text-text-secondary font-caption">Choice B: 22%</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <button onclick="startMirrorGame()" class="w-full bg-sadness hover:bg-purple-400 text-background font-heading font-semibold py-3 px-6 rounded-digital transition-all duration-300 transform hover:scale-105">
+                    Begin Mirror Game
+                </button>
+            </div>
+
+            <!-- Code Pulse Puzzle -->
+            <div class="bg-surface/50 backdrop-blur-sm border border-void-700 rounded-digital p-8 glow-rage puzzle-glow fade-in-up">
+                <div class="flex items-center justify-between mb-6">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-12 h-12 bg-error/20 rounded-digital flex items-center justify-center">
+                            <svg class="w-6 h-6 text-error" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-heading font-semibold text-primary">Code Pulse</h3>
+                            <p class="text-text-secondary text-sm font-caption">Programming Challenges</p>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <div class="text-2xl font-data font-bold text-error">43%</div>
+                        <div class="text-xs text-text-secondary font-caption">Success Rate</div>
+                    </div>
+                </div>
+                
+                <div class="space-y-4 mb-6">
+                    <p class="text-text-secondary text-sm leading-relaxed">
+                        Debug code snippets and solve programming logic puzzles. Your problem-solving approach reveals cognitive patterns.
+                    </p>
+                    
+                    <!-- Code Preview -->
+                    <div class="bg-void-900/50 border border-void-600 rounded-digital p-4 font-data text-xs">
+                        <div class="text-syntax-comment">// Find the logical error</div>
+                        <div><span class="syntax-keyword">function</span> <span class="text-primary">escape</span>() {</div>
+                        <div class="ml-4"><span class="syntax-keyword">if</span> (human == <span class="syntax-string">"true"</span>) {</div>
+                        <div class="ml-8 syntax-error">return false; // Error here</div>
+                        <div class="ml-4">}</div>
+                        <div>}</div>
+                    </div>
+                </div>
+                
+                <button onclick="startCodePulse()" class="w-full bg-error hover:bg-red-400 text-background font-heading font-semibold py-3 px-6 rounded-digital transition-all duration-300 transform hover:scale-105">
+                    Begin Code Pulse
+                </button>
+            </div>
+        </section>
+
+        <!-- Active Puzzle Area -->
+        <section id="activePuzzleArea" class="hidden bg-surface/30 backdrop-blur-sm border border-void-700 rounded-digital p-8 mb-8">
+            <div class="flex items-center justify-between mb-6">
+                <h2 id="activePuzzleTitle" class="text-2xl font-heading font-semibold text-primary">Active Puzzle</h2>
+                <button onclick="closePuzzle()" class="text-text-secondary hover:text-error transition-colors">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
+            </div>
+            
+            <!-- Progress Bar -->
+            <div class="mb-6">
+                <div class="flex justify-between text-sm text-text-secondary font-caption mb-2">
+                    <span>Progress</span>
+                    <span id="progressText">0/5</span>
+                </div>
+                <div class="w-full bg-void-700 rounded-full h-2">
+                    <div id="progressBar" class="progress-bar bg-accent h-2 rounded-full" style="width: 0%"></div>
+                </div>
+            </div>
+            
+            <!-- Puzzle Content -->
+            <div id="puzzleContent" class="min-h-64">
+                <!-- Dynamic puzzle content will be inserted here -->
+            </div>
+            
+            <!-- Hint System -->
+            <div class="mt-6 pt-6 border-t border-void-700">
+                <button id="hintBtn" onclick="showHint()" class="text-accent hover:text-cyan-300 transition-colors text-sm font-caption">
+                    💡 Need a hint? (3 remaining)
+                </button>
+                <div id="hintContent" class="hidden mt-3 p-4 bg-void-900/50 border border-void-600 rounded-digital text-sm text-text-secondary">
+                    <!-- Hint content will be displayed here -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Statistics Dashboard -->
+        <section class="bg-surface/20 backdrop-blur-sm border border-void-700 rounded-digital p-8">
+            <h2 class="text-2xl font-heading font-semibold text-primary mb-6">Performance Analytics</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Overall Progress -->
+                <div class="text-center">
+                    <div class="text-3xl font-data font-bold text-accent mb-2">67%</div>
+                    <div class="text-text-secondary text-sm font-caption">Overall Progress</div>
+                    <div class="w-full bg-void-700 rounded-full h-1 mt-2">
+                        <div class="bg-accent h-1 rounded-full" style="width: 67%"></div>
+                    </div>
+                </div>
+                
+                <!-- Puzzles Completed -->
+                <div class="text-center">
+                    <div class="text-3xl font-data font-bold text-success mb-2">12</div>
+                    <div class="text-text-secondary text-sm font-caption">Puzzles Completed</div>
+                    <div class="text-xs text-success font-caption mt-1">+3 today</div>
+                </div>
+                
+                <!-- Average Time -->
+                <div class="text-center">
+                    <div class="text-3xl font-data font-bold text-warning mb-2">4:32</div>
+                    <div class="text-text-secondary text-sm font-caption">Avg. Solve Time</div>
+                    <div class="text-xs text-warning font-caption mt-1">-0:45 improvement</div>
+                </div>
+                
+                <!-- AI Adaptation -->
+                <div class="text-center">
+                    <div class="text-3xl font-data font-bold text-sadness mb-2">89%</div>
+                    <div class="text-text-secondary text-sm font-caption">AI Adaptation Level</div>
+                    <div class="text-xs text-sadness font-caption mt-1">Learning your patterns</div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-surface/50 border-t border-void-700 mt-16">
+        <div class="max-w-7xl mx-auto px-6 py-8">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="text-center md:text-left mb-4 md:mb-0">
+                    <p class="text-void-400 text-sm font-caption">
+                        © 2025 Echoes of You. A psychological mystery experience.
+                    </p>
+                </div>
+                <div class="flex space-x-6 text-sm">
+                    <a href="conversation_interface.html" class="text-void-500 hover:text-accent transition-colors font-caption">Return to Conversation</a>
+                    <span class="text-void-600">•</span>
+                    <a href="ai_memory_dashboard.html" class="text-void-500 hover:text-accent transition-colors font-caption">AI Memory</a>
+                    <span class="text-void-600">•</span>
+                    <a href="ending_resolution.html" class="text-void-500 hover:text-accent transition-colors font-caption">Endings</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Audio Elements -->
+    <audio id="successSound" preload="auto">
+        <source src="https://www.soundjay.com/misc/sounds/bell-ringing-05.wav" type="audio/wav">
+    </audio>
+    <audio id="errorSound" preload="auto">
+        <source src="https://www.soundjay.com/misc/sounds/fail-buzzer-02.wav" type="audio/wav">
+    </audio>
+
+    <script>
+        // Puzzle System State
+        let currentPuzzle = null;
+        let puzzleProgress = 0;
+        let hintsRemaining = 3;
+        let puzzleData = {
+            truthLock: {
+                questions: [
+                    "What is your greatest fear, and when did you first realize it?",
+                    "Describe a moment when you felt completely alone.",
+                    "What lie do you tell yourself most often?",
+                    "When did you last feel genuinely happy?",
+                    "What would you change about yourself if you could?"
+                ],
+                currentQuestion: 0,
+                responses: [],
+                typingPatterns: []
+            },
+            emotionMatch: {
+                scenarios: [
+                    { text: "Standing alone in an empty room", correctEmotion: "sadness" },
+                    { text: "Hearing footsteps behind you at night", correctEmotion: "anxiety" },
+                    { text: "Watching a sunset with someone you love", correctEmotion: "calm" },
+                    { text: "Being ignored by everyone around you", correctEmotion: "rage" },
+                    { text: "Finding an old photo of happier times", correctEmotion: "sadness" }
+                ],
+                currentScenario: 0,
+                matches: []
+            },
+            mirrorGame: {
+                choices: [
+                    { 
+                        question: "The AI offers you a way out. Do you:",
+                        options: ["Trust it immediately", "Question its motives", "Refuse and find another way"],
+                        aiPrediction: 1,
+                        reasoning: "Based on your cautious responses, you typically question before acting."
+                    },
+                    {
+                        question: "You find a memory that isn't yours. Do you:",
+                        options: ["Explore it deeply", "Ignore it completely", "Report it to the AI"],
+                        aiPrediction: 0,
+                        reasoning: "Your curiosity patterns suggest you'd investigate the unknown."
+                    }
+                ],
+                currentChoice: 0,
+                predictions: []
+            },
+            codePulse: {
+                challenges: [
+                    {
+                        title: "Logic Error Detection",
+                        code: `function escape() {\n  if (human == "true") {\n    return false; // Error: should return true\n  }\n  return true;\n}`,
+                        error: "Line 3: Logic inverted - should return true when human is true",
+                        solution: "return true;"
+                    },
+                    {
+                        title: "Memory Leak Fix",
+                        code: `let memories = [];\nwhile (true) {\n  memories.push(new Memory()); // Error: infinite loop\n  if (memories.length > 1000) break;\n}`,
+                        error: "Line 2: Infinite loop without proper exit condition",
+                        solution: "Add proper loop termination"
+                    }
+                ],
+                currentChallenge: 0,
+                solutions: []
+            }
+        };
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeMobileMenu();
+            loadPuzzleProgress();
+            initializeEmotionSelectors();
+        });
+
+        // Mobile menu functionality
+        function initializeMobileMenu() {
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            const mobileMenu = document.getElementById('mobileMenu');
+            
+            mobileMenuBtn.addEventListener('click', function() {
+                mobileMenu.classList.toggle('hidden');
+            });
+        }
+
+        // Initialize emotion selectors
+        function initializeEmotionSelectors() {
+            const selectors = document.querySelectorAll('.emotion-selector');
+            selectors.forEach(selector => {
+                selector.addEventListener('click', function() {
+                    // Remove previous selection
+                    selectors.forEach(s => s.classList.remove('emotion-selected'));
+                    // Add selection to clicked element
+                    this.classList.add('emotion-selected');
+                });
+            });
+        }
+
+        // Start Truth Lock Puzzle
+        function startTruthLock() {
+            currentPuzzle = 'truthLock';
+            showActivePuzzle('Truth Lock - Honesty Validation');
+            renderTruthLockQuestion();
+        }
+
+        // Start Emotion Match Puzzle
+        function startEmotionMatch() {
+            currentPuzzle = 'emotionMatch';
+            showActivePuzzle('Emotion Match - Mood-Color Alignment');
+            renderEmotionMatchScenario();
+        }
+
+        // Start Mirror Game Puzzle
+        function startMirrorGame() {
+            currentPuzzle = 'mirrorGame';
+            showActivePuzzle('Mirror Game - Predictive Choice System');
+            renderMirrorGameChoice();
+        }
+
+        // Start Code Pulse Puzzle
+        function startCodePulse() {
+            currentPuzzle = 'codePulse';
+            showActivePuzzle('Code Pulse - Programming Challenges');
+            renderCodePulseChallenge();
+        }
+
+        // Show active puzzle area
+        function showActivePuzzle(title) {
+            const puzzleArea = document.getElementById('activePuzzleArea');
+            const puzzleTitle = document.getElementById('activePuzzleTitle');
+            
+            puzzleTitle.textContent = title;
+            puzzleArea.classList.remove('hidden');
+            puzzleArea.scrollIntoView({ behavior: 'smooth' });
+            
+            // Reset progress
+            puzzleProgress = 0;
+            updateProgress();
+        }
+
+        // Close active puzzle
+        function closePuzzle() {
+            const puzzleArea = document.getElementById('activePuzzleArea');
+            puzzleArea.classList.add('hidden');
+            currentPuzzle = null;
+            puzzleProgress = 0;
+        }
+
+        // Render Truth Lock question
+        function renderTruthLockQuestion() {
+            const content = document.getElementById('puzzleContent');
+            const data = puzzleData.truthLock;
+            const question = data.questions[data.currentQuestion];
+            
+            content.innerHTML = `
+                <div class="space-y-6">
+                    <div class="text-center">
+                        <div class="text-lg font-heading font-medium text-primary mb-4">Question ${data.currentQuestion + 1} of ${data.questions.length}</div>
+                        <p class="text-text-secondary text-base leading-relaxed">${question}</p>
+                    </div>
+                    
+                    <div class="space-y-4">
+                        <textarea 
+                            id="truthResponse" 
+                            placeholder="Type your honest response here..."
+                            class="w-full h-32 bg-void-900/50 border border-void-600 rounded-digital p-4 text-text-primary placeholder-text-secondary resize-none focus:border-accent focus:outline-none transition-colors"
+                            onkeydown="trackTypingPattern(event)"
+                            oninput="analyzeResponse()"
+                        ></textarea>
+                        
+                        <div class="flex items-center justify-between">
+                            <div class="text-xs text-text-secondary font-caption">
+                                <span id="typingAnalysis">Analyzing typing patterns...</span>
+                            </div>
+                            <button 
+                                onclick="submitTruthResponse()" 
+                                class="bg-accent hover:bg-cyan-300 text-background font-heading font-medium px-6 py-2 rounded-digital transition-colors"
+                                disabled
+                                id="submitTruthBtn"
+                            >
+                                Submit Response
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Render Emotion Match scenario
+        function renderEmotionMatchScenario() {
+            const content = document.getElementById('puzzleContent');
+            const data = puzzleData.emotionMatch;
+            const scenario = data.scenarios[data.currentScenario];
+            
+            content.innerHTML = `
+                <div class="space-y-6">
+                    <div class="text-center">
+                        <div class="text-lg font-heading font-medium text-primary mb-4">Scenario ${data.currentScenario + 1} of ${data.scenarios.length}</div>
+                        <div class="bg-void-900/50 border border-void-600 rounded-digital p-6">
+                            <p class="text-text-primary text-lg italic">"${scenario.text}"</p>
+                        </div>
+                    </div>
+                    
+                    <div class="text-center">
+                        <p class="text-text-secondary mb-4">What emotion does this scenario evoke?</p>
+                        <div class="flex justify-center space-x-6">
+                            <div class="emotion-option" data-emotion="calm">
+                                <div class="w-16 h-16 rounded-full bg-calm cursor-pointer emotion-selector hover:scale-110 transition-transform" onclick="selectEmotion('calm')"></div>
+                                <div class="text-xs text-text-secondary font-caption mt-2">Calm</div>
+                            </div>
+                            <div class="emotion-option" data-emotion="anxiety">
+                                <div class="w-16 h-16 rounded-full bg-anxiety cursor-pointer emotion-selector hover:scale-110 transition-transform" onclick="selectEmotion('anxiety')"></div>
+                                <div class="text-xs text-text-secondary font-caption mt-2">Anxiety</div>
+                            </div>
+                            <div class="emotion-option" data-emotion="rage">
+                                <div class="w-16 h-16 rounded-full bg-rage cursor-pointer emotion-selector hover:scale-110 transition-transform" onclick="selectEmotion('rage')"></div>
+                                <div class="text-xs text-text-secondary font-caption mt-2">Rage</div>
+                            </div>
+                            <div class="emotion-option" data-emotion="sadness">
+                                <div class="w-16 h-16 rounded-full bg-sadness cursor-pointer emotion-selector hover:scale-110 transition-transform" onclick="selectEmotion('sadness')"></div>
+                                <div class="text-xs text-text-secondary font-caption mt-2">Sadness</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Render Mirror Game choice
+        function renderMirrorGameChoice() {
+            const content = document.getElementById('puzzleContent');
+            const data = puzzleData.mirrorGame;
+            const choice = data.choices[data.currentChoice];
+            
+            content.innerHTML = `
+                <div class="space-y-6">
+                    <div class="text-center">
+                        <div class="text-lg font-heading font-medium text-primary mb-4">Choice ${data.currentChoice + 1} of ${data.choices.length}</div>
+                        <p class="text-text-secondary text-base leading-relaxed mb-6">${choice.question}</p>
+                    </div>
+                    
+                    <div class="bg-sadness/10 border border-sadness/30 rounded-digital p-4 mb-6">
+                        <div class="text-sadness text-sm font-caption mb-2">🤖 AI Prediction:</div>
+                        <div class="text-text-secondary text-sm">${choice.reasoning}</div>
+                        <div class="mt-3">
+                            <div class="text-xs text-text-secondary font-caption mb-2">Predicted Choice:</div>
+                            <div class="bg-sadness/20 border border-sadness/50 rounded px-3 py-2 text-sm text-sadness font-medium inline-block">
+                                ${choice.options[choice.aiPrediction]}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-3">
+                        ${choice.options.map((option, index) => `
+                            <button 
+                                onclick="selectMirrorChoice(${index})" 
+                                class="w-full text-left bg-void-900/50 hover:bg-void-800/50 border border-void-600 hover:border-accent rounded-digital p-4 transition-all duration-300 ${index === choice.aiPrediction ? 'prediction-match' : ''}"
+                            >
+                                <div class="flex items-center justify-between">
+                                    <span class="text-text-primary">${option}</span>
+                                    ${index === choice.aiPrediction ? '<span class="text-sadness text-xs font-caption">AI Predicted</span>' : ''}
+                                </div>
+                            </button>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        // Render Code Pulse challenge
+        function renderCodePulseChallenge() {
+            const content = document.getElementById('puzzleContent');
+            const data = puzzleData.codePulse;
+            const challenge = data.challenges[data.currentChallenge];
+            
+            content.innerHTML = `
+                <div class="space-y-6">
+                    <div class="text-center">
+                        <div class="text-lg font-heading font-medium text-primary mb-4">${challenge.title}</div>
+                        <p class="text-text-secondary text-sm">Find and fix the error in the code below</p>
+                    </div>
+                    
+                    <div class="bg-void-900/50 border border-void-600 rounded-digital p-4 font-data text-sm">
+                        <pre class="text-text-primary whitespace-pre-wrap">${challenge.code}</pre>
+                    </div>
+                    
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-text-secondary text-sm font-caption mb-2">Your Solution:</label>
+                            <textarea 
+                                id="codeSolution" 
+                                placeholder="Describe the error and provide the fix..."
+                                class="w-full h-24 bg-void-900/50 border border-void-600 rounded-digital p-4 text-text-primary placeholder-text-secondary resize-none focus:border-accent focus:outline-none transition-colors font-data text-sm"
+                            ></textarea>
+                        </div>
+                        
+                        <button 
+                            onclick="submitCodeSolution()" 
+                            class="bg-error hover:bg-red-400 text-background font-heading font-medium px-6 py-2 rounded-digital transition-colors"
+                        >
+                            Submit Solution
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Track typing patterns for Truth Lock
+        function trackTypingPattern(event) {
+            const timestamp = Date.now();
+            const data = puzzleData.truthLock;
+            
+            data.typingPatterns.push({
+                key: event.key,
+                timestamp: timestamp,
+                hesitation: data.typingPatterns.length > 0 ? timestamp - data.typingPatterns[data.typingPatterns.length - 1].timestamp : 0
+            });
+        }
+
+        // Analyze response for Truth Lock
+        function analyzeResponse() {
+            const response = document.getElementById('truthResponse').value;
+            const submitBtn = document.getElementById('submitTruthBtn');
+            const analysis = document.getElementById('typingAnalysis');
+            
+            if (response.length > 10) {
+                submitBtn.disabled = false;
+                submitBtn.classList.remove('opacity-50');
+                
+                // Simple analysis feedback
+                const avgHesitation = puzzleData.truthLock.typingPatterns.reduce((sum, p) => sum + p.hesitation, 0) / puzzleData.truthLock.typingPatterns.length;
+                
+                if (avgHesitation > 200) {
+                    analysis.textContent = "High hesitation detected - considering carefully?";
+                    analysis.className = "text-xs text-warning font-caption";
+                } else {
+                    analysis.textContent = "Confident typing pattern detected";
+                    analysis.className = "text-xs text-success font-caption";
+                }
+            } else {
+                submitBtn.disabled = true;
+                submitBtn.classList.add('opacity-50');
+                analysis.textContent = "Analyzing typing patterns...";
+                analysis.className = "text-xs text-text-secondary font-caption";
+            }
+        }
+
+        // Submit Truth Lock response
+        function submitTruthResponse() {
+            const response = document.getElementById('truthResponse').value;
+            const data = puzzleData.truthLock;
+            
+            data.responses.push({
+                question: data.questions[data.currentQuestion],
+                response: response,
+                typingPattern: [...data.typingPatterns]
+            });
+            
+            // Simulate validation
+            const isHonest = Math.random() > 0.3; // 70% chance of being considered honest
+            
+            if (isHonest) {
+                showFeedback('Response validated as authentic', 'success');
+                data.currentQuestion++;
+                puzzleProgress++;
+                
+                if (data.currentQuestion >= data.questions.length) {
+                    completePuzzle('Truth Lock completed successfully!');
+                } else {
+                    setTimeout(() => renderTruthLockQuestion(), 1500);
+                }
+            } else {
+                showFeedback('Inconsistency detected - please reconsider your response', 'error');
+                document.getElementById('puzzleContent').classList.add('glitch-intense');
+                setTimeout(() => {
+                    document.getElementById('puzzleContent').classList.remove('glitch-intense');
+                }, 1000);
+            }
+            
+            updateProgress();
+        }
+
+        // Select emotion for Emotion Match
+        function selectEmotion(emotion) {
+            const data = puzzleData.emotionMatch;
+            const scenario = data.scenarios[data.currentScenario];
+            
+            const isCorrect = emotion === scenario.correctEmotion;
+            
+            if (isCorrect) {
+                showFeedback('Perfect emotional match!', 'success');
+                data.matches.push({ scenario: scenario.text, selected: emotion, correct: true });
+                data.currentScenario++;
+                puzzleProgress++;
+                
+                if (data.currentScenario >= data.scenarios.length) {
+                    completePuzzle('Emotion Match completed successfully!');
+                } else {
+                    setTimeout(() => renderEmotionMatchScenario(), 1500);
+                }
+            } else {
+                showFeedback(`Not quite right. The scenario evokes ${scenario.correctEmotion}`, 'error');
+                data.matches.push({ scenario: scenario.text, selected: emotion, correct: false });
+                document.getElementById('puzzleContent').classList.add('glitch-intense');
+                setTimeout(() => {
+                    document.getElementById('puzzleContent').classList.remove('glitch-intense');
+                    renderEmotionMatchScenario();
+                }, 2000);
+            }
+            
+            updateProgress();
+        }
+
+        // Select choice for Mirror Game
+        function selectMirrorChoice(choiceIndex) {
+            const data = puzzleData.mirrorGame;
+            const choice = data.choices[data.currentChoice];
+            
+            const wasPredicted = choiceIndex === choice.aiPrediction;
+            
+            if (!wasPredicted) {
+                showFeedback('Unpredictable choice! You\'re breaking the pattern', 'success');
+                data.predictions.push({ predicted: false, choice: choiceIndex });
+                data.currentChoice++;
+                puzzleProgress++;
+                
+                if (data.currentChoice >= data.choices.length) {
+                    completePuzzle('Mirror Game completed - AI prediction broken!');
+                } else {
+                    setTimeout(() => renderMirrorGameChoice(), 1500);
+                }
+            } else {
+                showFeedback('AI predicted correctly. Try to be more unpredictable', 'error');
+                data.predictions.push({ predicted: true, choice: choiceIndex });
+                document.getElementById('puzzleContent').classList.add('glitch-intense');
+                setTimeout(() => {
+                    document.getElementById('puzzleContent').classList.remove('glitch-intense');
+                    renderMirrorGameChoice();
+                }, 2000);
+            }
+            
+            updateProgress();
+        }
+
+        // Submit Code Pulse solution
+        function submitCodeSolution() {
+            const solution = document.getElementById('codeSolution').value;
+            const data = puzzleData.codePulse;
+            const challenge = data.challenges[data.currentChallenge];
+            
+            // Simple validation - check if solution mentions key terms
+            const isCorrect = solution.toLowerCase().includes('true') || solution.toLowerCase().includes('logic') || solution.toLowerCase().includes('return');
+            
+            if (isCorrect) {
+                showFeedback('Correct! Error identified and fixed', 'success');
+                data.solutions.push({ challenge: challenge.title, solution: solution, correct: true });
+                data.currentChallenge++;
+                puzzleProgress++;
+                
+                if (data.currentChallenge >= data.challenges.length) {
+                    completePuzzle('Code Pulse completed successfully!');
+                } else {
+                    setTimeout(() => renderCodePulseChallenge(), 1500);
+                }
+            } else {
+                showFeedback('Solution incomplete. Review the code more carefully', 'error');
+                data.solutions.push({ challenge: challenge.title, solution: solution, correct: false });
+                document.getElementById('puzzleContent').classList.add('glitch-intense');
+                setTimeout(() => {
+                    document.getElementById('puzzleContent').classList.remove('glitch-intense');
+                }, 1000);
+            }
+            
+            updateProgress();
+        }
+
+        // Show feedback message
+        function showFeedback(message, type) {
+            const feedback = document.createElement('div');
+            feedback.className = `fixed top-4 right-4 p-4 rounded-digital font-caption text-sm z-50 transition-all duration-300 ${
+                type === 'success' ? 'bg-success text-background' : 
+                type === 'error' ? 'bg-error text-background' : 
+                'bg-accent text-background'
+            }`;
+            feedback.textContent = message;
+            
+            document.body.appendChild(feedback);
+            
+            // Play sound
+            const audio = document.getElementById(type === 'success' ? 'successSound' : 'errorSound');
+            audio.play().catch(e => console.log('Audio play failed:', e));
+            
+            setTimeout(() => {
+                feedback.style.opacity = '0';
+                feedback.style.transform = 'translateX(100%)';
+                setTimeout(() => feedback.remove(), 300);
+            }, 3000);
+        }
+
+        // Complete puzzle
+        function completePuzzle(message) {
+            showFeedback(message, 'success');
+            
+            // Save progress
+            savePuzzleProgress();
+            
+            // Return to conversation after delay
+            setTimeout(() => {
+                window.location.href = 'conversation_interface.html';
+            }, 3000);
+        }
+
+        // Update progress bar
+        function updateProgress() {
+            const progressBar = document.getElementById('progressBar');
+            const progressText = document.getElementById('progressText');
+            const maxProgress = currentPuzzle === 'truthLock' ? 5 : 
+                               currentPuzzle === 'emotionMatch' ? 5 : 
+                               currentPuzzle === 'mirrorGame' ? 2 : 2;
+            
+            const percentage = (puzzleProgress / maxProgress) * 100;
+            progressBar.style.width = `${percentage}%`;
+            progressText.textContent = `${puzzleProgress}/${maxProgress}`;
+        }
+
+        // Show hint
+        function showHint() {
+            if (hintsRemaining <= 0) return;
+            
+            const hintContent = document.getElementById('hintContent');
+            const hintBtn = document.getElementById('hintBtn');
+            
+            hintsRemaining--;
+            hintBtn.textContent = `💡 Need a hint? (${hintsRemaining} remaining)`;
+            
+            let hint = '';
+            switch (currentPuzzle) {
+                case 'truthLock':
+                    hint = 'The AI analyzes your typing rhythm and hesitation patterns. Be genuine and consistent with your previous responses.';
+                    break;
+                case 'emotionMatch':
+                    hint = 'Consider the physical sensations and immediate emotional response the scenario would evoke in you personally.';
+                    break;
+                case 'mirrorGame':
+                    hint = 'The AI expects logical, predictable choices. Try to think outside your usual decision-making patterns.';
+                    break;
+                case 'codePulse':
+                    hint = 'Look for logical inconsistencies. What should happen when the condition is true versus what actually happens?';
+                    break;
+            }
+            
+            hintContent.textContent = hint;
+            hintContent.classList.remove('hidden');
+            
+            if (hintsRemaining <= 0) {
+                hintBtn.style.opacity = '0.5';
+                hintBtn.style.pointerEvents = 'none';
+            }
+        }
+
+        // Save puzzle progress
+        function savePuzzleProgress() {
+            const progress = {
+                timestamp: new Date().toISOString(),
+                puzzleData: puzzleData,
+                completedPuzzles: {
+                    truthLock: puzzleData.truthLock.currentQuestion >= puzzleData.truthLock.questions.length,
+                    emotionMatch: puzzleData.emotionMatch.currentScenario >= puzzleData.emotionMatch.scenarios.length,
+                    mirrorGame: puzzleData.mirrorGame.currentChoice >= puzzleData.mirrorGame.choices.length,
+                    codePulse: puzzleData.codePulse.currentChallenge >= puzzleData.codePulse.challenges.length
+                }
+            };
+            
+            localStorage.setItem('echoesPuzzleProgress', JSON.stringify(progress));
+        }
+
+        // Load puzzle progress
+        function loadPuzzleProgress() {
+            const saved = localStorage.getItem('echoesPuzzleProgress');
+            if (saved) {
+                const progress = JSON.parse(saved);
+                puzzleData = progress.puzzleData || puzzleData;
+            }
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && currentPuzzle) {
+                closePuzzle();
+            }
+        });
+    </script>
+<script id="dhws-dataInjector" src="../public/dhws-data-injector.js"></script>
+</body>
+</html>
